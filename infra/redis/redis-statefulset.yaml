@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-statefulset
+spec:
+  serviceName: redis-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1 # 워커1에 고정
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        command: ["redis-server", "/etc/redis/redis.conf"]
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: "4Gi"
+          limits:
+            memory: "5Gi" # ConfigMap의 maxmemory보다 넉넉하게
+        volumeMounts:
+        - name: redis-storage
+          mountPath: /data
+        - name: redis-config-volume
+          mountPath: /etc/redis/
+      volumes:
+      - name: redis-config-volume
+        configMap:
+          name: redis-config
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 10Gi
