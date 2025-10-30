@@ -1,0 +1,20 @@
+# /03-global-access/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tickget-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: "tickget.kr"  # 또는 "api.tickget.kr" (DNS에 설정한 주소)
+    http:
+      paths:
+      # --- Ticketing API v1 ---
+      - path: /api/ticketing
+        pathType: Prefix
+        backend:
+          service:
+            name: ticketing-server-service # ticketing-server의 Service 이름
+            port:
+              number: 80
