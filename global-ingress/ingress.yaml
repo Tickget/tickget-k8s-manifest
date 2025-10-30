@@ -4,7 +4,8 @@ kind: Ingress
 metadata:
   name: tickget-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: default-strip-prefix@kubernetescrd
+    # 'default'는 Middleware가 생성된 네임스페이스입니다.
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-ticketing-prefix@kubernetescrd
 spec:
   rules:
   - host: "tickget.kr"  # 또는 "api.tickget.kr" (DNS에 설정한 주소)
