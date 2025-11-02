@@ -3,9 +3,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tickget-ingress
+  namespace: default
   annotations:
-    # 'default'는 Middleware가 생성된 네임스페이스입니다.
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-ticketing-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-ticketing-prefix@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
