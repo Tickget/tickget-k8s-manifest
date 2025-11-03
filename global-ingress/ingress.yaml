@@ -3,8 +3,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ticketing-ingress
+  namespace: default
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-tickget-middleware@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: tickget-middleware@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
