@@ -15,6 +15,9 @@ spec:
       - "--api" # Traefik API 활성화
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      # --- HTTP to HTTPS 리디렉션 ---
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     
     # 기본 포트 설정 유지
     ports:

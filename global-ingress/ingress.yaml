@@ -5,12 +5,19 @@ metadata:
   name: ticketing-ingress
   namespace: default
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # traefik.ingress.kubernetes.io/router.entrypoints: web # HTTP 접근 허용
     traefik.ingress.kubernetes.io/router.middlewares: default-tickget-middleware@kubernetescrd
+    # --- Cert-Manager가 사용할 Issuer 지정 ---
+    cert-manager.io/cluster-issuer: "letsencrypt-staging" # 테스트 후 "letsencrypt-prod"로 변경
 spec:
   ingressClassName: traefik
+  # --- TLS 설정 ---
+  tls:
+  - hosts:
+    - "tickget.kr"
+    secretName: tickget-kr-tls # Cert-Manager가 이 이름으로 인증서 Secret을 생성합니다.
   rules:
-  - host: "tickget.kr"  # 또는 "api.tickget.kr" (DNS에 설정한 주소)
+  - host: "tickget.kr"  # DNS에 설정한 주소
     http:
       paths:
       # --- Ticketing API v1 ---
