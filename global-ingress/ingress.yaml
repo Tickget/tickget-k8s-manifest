@@ -8,7 +8,7 @@ metadata:
     # traefik.ingress.kubernetes.io/router.entrypoints: web # HTTP 접근 허용
     traefik.ingress.kubernetes.io/router.middlewares: default-tickget-middleware@kubernetescrd
     # --- Cert-Manager가 사용할 Issuer 지정 ---
-    cert-manager.io/cluster-issuer: "letsencrypt-staging" # 테스트 후 "letsencrypt-prod"로 변경
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # 테스트 후 "letsencrypt-prod"로 변경
 spec:
   ingressClassName: traefik
   # --- TLS 설정 ---
