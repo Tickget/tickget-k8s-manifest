@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: ticketing-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: default-tickget-middleware@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: tickget-middleware@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
