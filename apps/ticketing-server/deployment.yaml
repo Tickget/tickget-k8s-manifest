@@ -24,8 +24,8 @@ spec:
           - configMapRef:
               name: ticketing-server-config
           # Secret의 모든 데이터를 환경변수로 주입
-          - secretRef:
-              name: ticketing-server-secret
+          # - secretRef:
+              # name: ticketing-server-secret
         resources:
           requests: # 최소 보장 리소스
             memory: "1Gi"

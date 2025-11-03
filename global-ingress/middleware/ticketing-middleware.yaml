@@ -1,9 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: ticketingLB
-  namespace: ingress-traefik
-  # Ingress와 동일한 네임스페이스에 생성 (아마도 'default')
+  name: tickget-middleware
 spec:
   stripPrefix:
     prefixes:
