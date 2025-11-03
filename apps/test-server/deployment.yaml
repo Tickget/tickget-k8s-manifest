@@ -38,11 +38,11 @@ spec:
           httpGet:
             path: /test
             port: 8080
-          initialDelaySeconds: 30 # 시작 후 30초 대기
+          initialDelaySeconds: 60 # 시작 후 60초 대기
           periodSeconds: 10 # 10초마다 체크
         livenessProbe: # 파드가 살아있는지 (죽었으면 재시작)
           httpGet:
             path: /test
             port: 8080
-          initialDelaySeconds: 60 # 시작 후 60초 대기
+          initialDelaySeconds: 80 # 시작 후 80초 대기
           periodSeconds: 15
