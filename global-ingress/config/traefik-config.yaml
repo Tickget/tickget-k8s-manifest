@@ -1,0 +1,24 @@
+# k3s Traefik 대시보드 활성화 설정
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    # API 및 대시보드 활성화
+    dashboard:
+      enabled: true
+    
+    # 추가 arguments
+    additionalArguments:
+      - "--api" # Traefik API 활성화
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    
+    # 기본 포트 설정 유지
+    ports:
+      web:
+        port: 80
+      websecure:
+        port: 443
