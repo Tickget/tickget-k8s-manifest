@@ -1,0 +1,31 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tickget-app-routes
+  namespace: default
+spec:
+  entryPoints:
+    - websecure # HTTPS
+  routes:
+    # --- 1. Ticketing Server 라우트 (/dev/ticketing) ---
+    - match: Host(`tickget.kr`) && PathPrefix(`/dev/ticketing`)
+      kind: Rule
+      services:
+        - name: ticketing-server-service #
+          port: 80
+      middlewares:
+        #
+        - name: tickget-middleware 
+    
+    # --- 2. Test Server 라우트 (/dev/test) ---
+    - match: Host(`tickget.kr`) && PathPrefix(`/dev/test`)
+      kind: Rule
+      services:
+        - name: test-server-service # 6단계에서 생성한 서비스
+          port: 80
+      middlewares:
+        - name: test-server-middleware # 7단계에서 생성한 미들웨어
+  
+  # --- TLS (HTTPS) 설정 ---
+  tls:
+    secretName: tickget-kr-tls # 기존 인증서 Secret 재사용
