@@ -1,9 +1,9 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: test-server-middleware
-  namespace: default
+  name: ticketing-server-middleware
+  namespace: prod
 spec:
   stripPrefix:
     prefixes:
-      - /dev/test
+      - /api/v1/tkt

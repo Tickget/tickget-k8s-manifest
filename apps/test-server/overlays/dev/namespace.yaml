@@ -1,0 +1,5 @@
+# apps/test-server/overlays/dev/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev # 'dev' 네임스페이스를 생성

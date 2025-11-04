@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure # web -> websecure
   routes:
-  - match: Host(`tickget.kr`) && PathPrefix(`/api`)
+  - match: Host(`tickget.kr`) && PathPrefix(`/k3s/traefik-api`)
     kind: Rule
     services:
     - name: api@internal

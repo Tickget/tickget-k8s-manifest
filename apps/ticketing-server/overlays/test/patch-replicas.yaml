@@ -1,0 +1,7 @@
+# apps/ticketing-server/overlays/test/patch-replicas.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-server-deployment
+spec:
+  replicas: 1 # 테스트 환경은 1개만 실행

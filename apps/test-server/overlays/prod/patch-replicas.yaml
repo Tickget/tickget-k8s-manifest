@@ -1,0 +1,7 @@
+# apps/test-server/overlays/prod/patch-replicas.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-server-deployment
+spec:
+  replicas: 3 # 운영 환경은 3개 실행

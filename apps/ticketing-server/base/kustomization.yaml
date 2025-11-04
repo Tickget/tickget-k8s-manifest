@@ -1,0 +1,8 @@
+# apps/ticketing-server/base/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# 이 base가 포함하는 공통 리소스 목록
+resources:
+- deployment.yaml
+- service.yaml

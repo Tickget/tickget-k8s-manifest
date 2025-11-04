@@ -1,9 +1,9 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: tickget-middleware
+  name: test-server-middleware
   namespace: default
 spec:
   stripPrefix:
     prefixes:
-      - /dev/ticketing
+      - /api/v1/tst

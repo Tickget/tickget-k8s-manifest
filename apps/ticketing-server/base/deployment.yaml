@@ -1,31 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-server-deployment
+  name: ticketing-server-deployment
 spec:
   replicas: 2 # 2개의 파드로 실행 (안정성)
   selector:
     matchLabels:
-      app: test-server
+      app: ticketing-server
   template:
     metadata:
       labels:
-        app: test-server
+        app: ticketing-server
     spec:
       containers:
-      - name: test-server
-        # 1단계에서 푸시한 Docker Hub 이미지
-        image: kkaebu/test-server:latest
-        imagePullPolicy: Always # 항상 최신 이미지를 받음
+      - name: ticketing-server
+        # 1단계에서 푸시한 Docker Hub 이미지 (태그는 overlays에서 지정)
+        image: kkaebu/ticketing-server
+        # kustomize가 관리할 것이기에 삭제제
+        # imagePullPolicy: Always # 항상 최신 이미지를 받음
         ports:
         - containerPort: 8080 # Spring Boot 기본 포트
         envFrom:
           # ConfigMap의 모든 데이터를 환경변수로 주입
           - configMapRef:
-              name: test-server-config
+              name: ticketing-server-config
           # Secret의 모든 데이터를 환경변수로 주입
-          - secretRef:
-              name: test-server-secret
+          # - secretRef:
+              # name: ticketing-server-secret
         resources:
           requests: # 최소 보장 리소스
             memory: "1Gi"
@@ -36,13 +37,13 @@ spec:
         # 헬스 체크 설정 (HealthController 사용)
         readinessProbe: # 파드가 요청을 받을 준비가 되었는지
           httpGet:
-            path: /test
+            path: /health
             port: 8080
-          initialDelaySeconds: 60 # 시작 후 60초 대기
+          initialDelaySeconds: 30 # 시작 후 30초 대기
           periodSeconds: 10 # 10초마다 체크
         livenessProbe: # 파드가 살아있는지 (죽었으면 재시작)
           httpGet:
-            path: /test
+            path: /health
             port: 8080
-          initialDelaySeconds: 80 # 시작 후 80초 대기
+          initialDelaySeconds: 60 # 시작 후 60초 대기
           periodSeconds: 15

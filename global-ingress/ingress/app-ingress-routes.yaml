@@ -1,0 +1,49 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tickget-app-routes
+  namespace: default
+spec:
+  entryPoints:
+    - websecure # HTTPS
+  routes:
+    # --- 1. 운영 환경 (Prod / master) ---
+    # 경로: /api/v1/tkt/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/tkt`)
+      kind: Rule
+      services:
+        - name: ticketing-server-service
+          port: 80
+          namespace: prod # prod 네임스페이스로 라우팅
+      middlewares:
+        - name: ticketing-server-middleware # 'prod' 네임스페이스의 미들웨어
+          namespace: prod
+
+    # --- 2. 개발 환경 (Dev / dev) ---
+    # 경로: /api/v1/dev/tkt/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/tkt`)
+      kind: Rule
+      services:
+        - name: ticketing-server-service
+          port: 80
+          namespace: dev # dev 네임스페이스로 라우팅
+      middlewares:
+        - name: ticketing-server-middleware # 'dev' 네임스페이스의 미들웨어
+          namespace: dev
+
+    # --- 3. 테스트 환경 (Test / test-dev) ---
+    # 경로: /api/v1/test/tst/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/test/tst`)
+      kind: Rule
+      services:
+        - name: test-server-service
+          port: 80
+          namespace: test # ★ test 네임스페이스로 라우팅
+      middlewares:
+        - name: test-server-middleware # 'test' 네임스페이스의 미들웨어
+          namespace: test
+  
+  # --- TLS (HTTPS) 설정 ---
+  tls:
+    secretName: tickget-kr-tls # 기존 인증서 Secret 재사용
+    namespace: default #tls가 있는 namespace 명시

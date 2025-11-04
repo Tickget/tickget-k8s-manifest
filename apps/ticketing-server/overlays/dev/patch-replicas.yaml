@@ -1,0 +1,7 @@
+# apps/ticketing-server/overlays/dev/patch-replicas.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-server-deployment
+spec:
+  replicas: 2 # 개발 환경은 2개 실행

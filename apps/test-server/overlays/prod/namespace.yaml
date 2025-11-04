@@ -1,0 +1,5 @@
+# apps/test-server/overlays/prod/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod # 'prod' 네임스페이스를 생성
