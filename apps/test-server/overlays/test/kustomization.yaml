@@ -3,9 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # 1. 사용할 base
+# 2. 이 환경(test)에만 추가할 리소스
 resources:
 - ../../base
-# 2. 이 환경(test)에만 추가할 리소스
 - namespace.yaml
 - configmap.yaml
 - secret.yaml
@@ -17,7 +17,8 @@ namespace: test
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/test-server
-  newTag: test-latest # CI가 이 부분을 덮어쓸 예정
+  newName: kkaebu/test-server
+  newTag: 7d6ae6a0
 
 # 5. base의 deployment.yaml replicas 덮어쓰기 (예: 테스트는 1개만)
 patches:
