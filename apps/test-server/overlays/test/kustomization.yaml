@@ -18,7 +18,7 @@ namespace: test
 images:
 - name: kkaebu/test-server
   newName: kkaebu/test-server
-  newTag: 7d6ae6a0
+  newTag: cf797d21
 
 # 5. base의 deployment.yaml replicas 덮어쓰기 (예: 테스트는 1개만)
 patches:
