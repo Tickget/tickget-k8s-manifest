@@ -26,7 +26,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: room-server-prod
+  name: room-server-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
