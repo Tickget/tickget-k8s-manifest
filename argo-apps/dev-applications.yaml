@@ -1,0 +1,70 @@
+# tickget-k8s-manifests/argo-apps/dev-applications.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ticketing-server-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    targetRevision: dev # ★ dev 브랜치 추적
+    path: apps/ticketing-server/overlays/dev # ★ dev 오버레이 경로
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev # ★ dev 네임스페이스에 배포
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-server-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    targetRevision: dev # ★ dev 브랜치 추적
+    path: apps/test-server/overlays/dev # ★ dev 오버레이 경로
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev # ★ dev 네임스페이스에 배포
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+# (room-server도 추가 시 위와 동일한 패턴으로 추가)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: room-server-prod
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    targetRevision: dev # ★ dev 브랜치 추적
+    path: apps/room-server/overlays/dev # ★ dev 오버레이 경로
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev # ★ dev 네임스페이스에 배포
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # 네임스페이스가 없다면 생성

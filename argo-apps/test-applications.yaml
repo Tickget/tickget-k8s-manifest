@@ -1,0 +1,23 @@
+# tickget-k8s-manifests/argo-apps/test-applications.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-server-test
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    targetRevision: test-dev # ★ test-dev 브랜치 추적
+    path: apps/test-server/overlays/test # ★ test 오버레이 경로
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: test # ★ test 네임스페이스에 배포
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
