@@ -18,6 +18,9 @@ spec:
       # --- HTTP to HTTPS 리디렉션 ---
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      # --- Prometheus 메트릭 활성화 (아래 2줄 추가) ---
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
     
     # 기본 포트 설정 유지
     ports:
@@ -25,3 +28,6 @@ spec:
         port: 80
       websecure:
         port: 443
+      # --- 메트릭 수집용 포트 추가 ---
+      metrics:
+        port: 9100
