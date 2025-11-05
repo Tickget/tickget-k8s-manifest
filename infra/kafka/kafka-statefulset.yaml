@@ -21,6 +21,9 @@ spec:
         ports:
         - containerPort: 9092
         env:
+        # Java Cgroup v2 호환성 문제 우회
+        - name: KAFKA_OPTS
+          value: "-Djdk.internal.platform.cgroupv2.enabled=false"
         # KAFKA_PROCESS_ROLES 삭제 (Zookeeper 모드로 실행)
 
         - name: KAFKA_BROKER_ID
