@@ -46,4 +46,4 @@ spec:
   # --- TLS (HTTPS) 설정 ---
   tls:
     secretName: tickget-kr-tls # 기존 인증서 Secret 재사용
-    namespace: default #tls가 있는 namespace 명시
+    # namespace: default #tls가 있는 namespace 명시
