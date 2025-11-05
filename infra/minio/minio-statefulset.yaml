@@ -1,10 +1,10 @@
-# infra/minio/minio-statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: minio
+  namespace: dev
 spec:
-  serviceName: "minio-service"
+  serviceName: minio-service
   replicas: 1
   selector:
     matchLabels:
@@ -17,18 +17,21 @@ spec:
       containers:
       - name: minio
         image: minio/minio:latest
-        command:
-        - /bin/bash
-        - -c
-        - "minio server /data --console-address :9001"
+        args:
+        - server
+        - /data
+        - --console-address
+        - ":9001"
         env:
         - name: MINIO_ROOT_USER
-          value: "minioadmin" # Secret으로 빼는 것이 좋지만 dev 편의상
+          value: "minioadmin"
         - name: MINIO_ROOT_PASSWORD
           value: "minioadmin"
         ports:
-        - containerPort: 9000 # API 포트
-        - containerPort: 9001 # 콘솔 포트
+        - containerPort: 9000
+          name: api
+        - containerPort: 9001
+          name: console
         resources:
           requests:
             memory: "512Mi"
@@ -39,12 +42,24 @@ spec:
         volumeMounts:
         - name: minio-storage
           mountPath: /data
+        livenessProbe:
+          httpGet:
+            path: /minio/health/live
+            port: 9000
+          initialDelaySeconds: 30
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /minio/health/ready
+            port: 9000
+          initialDelaySeconds: 10
+          periodSeconds: 10
   volumeClaimTemplates:
   - metadata:
       name: minio-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-path # k3s 기본 StorageClass
+      storageClassName: local-path
       resources:
         requests:
-          storage: 5Gi
+          storage: 20Gi

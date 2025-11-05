@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: room-server-middleware
+  namespace: dev
+spec:
+  stripPrefix:
+    prefixes:
+      - /api/v1/dev/rms

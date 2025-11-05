@@ -1,13 +1,18 @@
-# infra/kafka/kafka-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: kafka-service
+  namespace: dev
 spec:
   selector:
     app: kafka
+  clusterIP: None  # Headless service for StatefulSet
   ports:
-  - protocol: TCP
+  - name: kafka
+    protocol: TCP
     port: 9092
     targetPort: 9092
-  type: ClusterIP
+  - name: controller
+    protocol: TCP
+    port: 9093
+    targetPort: 9093

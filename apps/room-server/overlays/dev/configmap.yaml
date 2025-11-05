@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: room-server-config
+data:
+  # MySQL URL (비밀번호 제외)
+  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8"
+  SPRING_DATASOURCE_DRIVER: "com.mysql.cj.jdbc.Driver"
+
+  # JPA
+  SPRING_JPA_DDL_AUTO: "update"
+
+  # DataSource Hikari
+  SPRING_DATASOURCE_IDLE_TIMEOUT: "300000"
+  SPRING_DATASOURCE_MIN_IDLE: "3"
+  SPRING_DATASOURCE_MAX_POOL_SIZE: "5"
+  SPRING_DATASOURCE_CONNECTION_TIMEOUT: "600000"
+
+  # Redis (K8s 내부 서비스 이름)
+  SPRING_REDIS_HOST: "redis-service"
+  SPRING_REDIS_PORT: "6379"
+  SPRING_REDIS_MAX_ACTIVE: "10"
+  SPRING_REDIS_MAX_IDLE: "10"
+  SPRING_REDIS_MIN_IDLE: "2"
+  SPRING_REDIS_MAX_WAIT: "3000"
+  SPRING_REDIS_SHUTDOWN_TIMEOUT: "100"
+
+  # Kafka
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service:9092"
+  SPRING_KAFKA_GROUP_ID: "room-server-dev"
+  SPRING_KAFKA_AUTO_OFFSET_RESET: "earliest"
+  SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafka"
+
+  # MinIO
+  MINIO_URL: "http://minio-service:9000"
+  MINIO_BUCKET_NAME: "room-server-bucket"
+
+  # Resilience4j
+  RETRY_MAX_ATTEMPTS: "3"
+  RETRY_WAIT_DURATION: "1s"
+  RETRY_BACKOFF_MULTIPLIER: "1"
+  CIRCUIT_BREAKER_WINDOW_SIZE: "10"
+  CIRCUIT_BREAKER_FAILURE_THRESHOLD: "50"
+  CIRCUIT_BREAKER_WAIT_DURATION: "10s"
+  CIRCUIT_BREAKER_HALF_OPEN_CALLS: "3"
+  CIRCUIT_BREAKER_AUTO_TRANSITION: "true"
+
+  # Management
+  MANAGEMENT_ENDPOINTS_EXPOSURE: "health,info,prometheus"
+  MANAGEMENT_HEALTH_SHOW_DETAILS: "always"
+
+  # Logging
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_LEVEL_TICKGET: "DEBUG"
+  LOGGING_LEVEL_MESSAGING: "DEBUG"
+  LOGGING_LEVEL_WEBSOCKET: "DEBUG"
+
+  # Ticketing Service (나중에 다른 서비스 배포 후 수정)
+  TICKETING_SERVICE_URL: "http://ticketing-server-service:8081"

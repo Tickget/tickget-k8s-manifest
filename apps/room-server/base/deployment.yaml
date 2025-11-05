@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: room-server-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: room-server
+  template:
+    metadata:
+      labels:
+        app: room-server
+    spec:
+      containers:
+      - name: room-server
+        image: kkaebu/room-server
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - configMapRef:
+              name: room-server-config
+          - secretRef:
+              name: room-server-secret
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 15
