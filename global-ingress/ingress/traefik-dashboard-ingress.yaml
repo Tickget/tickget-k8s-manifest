@@ -17,5 +17,5 @@ spec:
       kind: TraefikService
   # --- TLS 설정 ---
   tls:
-    secretName: default/tickget-kr-tls # ingress.yaml에서 생성된 Secret (네임스페이스/이름)
+    secretName: tickget-kr-tls # ingress.yaml에서 생성된 Secret (네임스페이스/이름)
     # default 네임스페이스에 생성되었으므로 'default/tickget-kr-tls'로 지정
