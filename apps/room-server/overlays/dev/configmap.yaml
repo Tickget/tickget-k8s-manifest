@@ -16,8 +16,8 @@ data:
   SPRING_DATASOURCE_MAX_POOL_SIZE: "5"
   SPRING_DATASOURCE_CONNECTION_TIMEOUT: "600000"
 
-  # Redis (K8s 내부 서비스 이름)
-  SPRING_REDIS_HOST: "redis-service"
+  # Redis (default 네임스페이스 - FQDN)
+  SPRING_REDIS_HOST: "redis-service.default.svc.cluster.local"
   SPRING_REDIS_PORT: "6379"
   SPRING_REDIS_MAX_ACTIVE: "10"
   SPRING_REDIS_MAX_IDLE: "10"
@@ -25,15 +25,15 @@ data:
   SPRING_REDIS_MAX_WAIT: "3000"
   SPRING_REDIS_SHUTDOWN_TIMEOUT: "100"
 
-  # Kafka
-  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service:9092"
+  # Kafka (default 네임스페이스 - FQDN)
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.default.svc.cluster.local:9092"
   SPRING_KAFKA_GROUP_ID: "room-server-dev"
   SPRING_KAFKA_AUTO_OFFSET_RESET: "earliest"
   SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafka"
 
-  # MinIO
-  MINIO_URL: "http://minio-service:9000"
-  MINIO_BUCKET_NAME: "room-server-bucket"
+  # MinIO (default 네임스페이스 - FQDN)
+  MINIO_URL: "http://minio-service.default.svc.cluster.local:9000"
+  MINIO_BUCKET_NAME: "room-server-dev-bucket"
 
   # Resilience4j
   RETRY_MAX_ATTEMPTS: "3"
@@ -55,5 +55,5 @@ data:
   LOGGING_LEVEL_MESSAGING: "DEBUG"
   LOGGING_LEVEL_WEBSOCKET: "DEBUG"
 
-  # Ticketing Service (나중에 다른 서비스 배포 후 수정)
-  TICKETING_SERVICE_URL: "http://ticketing-server-service:8081"
+  # Ticketing Service
+  TICKETING_SERVICE_URL: "http://ticketing-server-service.dev.svc.cluster.local"
