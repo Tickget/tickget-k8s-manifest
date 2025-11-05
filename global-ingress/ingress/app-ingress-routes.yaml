@@ -31,6 +31,17 @@ spec:
         - name: ticketing-server-middleware # 'dev' 네임스페이스의 미들웨어
           namespace: dev
 
+    # 경로: /api/v1/dev/rms/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms`)
+      kind: Rule
+      services:
+        - name: room-server-service
+          port: 80
+          namespace: dev # dev 네임스페이스로 라우팅
+      middlewares:
+        - name: room-server-middleware # 'dev' 네임스페이스의 미들웨어
+          namespace: dev
+
     # --- 3. 테스트 환경 (Test / test-dev) ---
     # 경로: /api/v1/test/tst/*
     - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/test/tst`)
