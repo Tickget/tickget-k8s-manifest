@@ -55,12 +55,12 @@ spec:
           namespace: test
 
     # --- 4. 프론트엔드 (Frontend) ---
-    # 주의: 프론트엔드는 가장 마지막에 선언 (API 경로들이 먼저 매칭되도록)
+    # 주의: 프론트엔드는 가장 마지막에 선언하되, priority는 적절히 설정
 
-    # Dev 프론트엔드 (기본)
+    # Dev 프론트엔드 (기본 - 모든 나머지 경로)
     - match: Host(`tickget.kr`) && PathPrefix(`/`)
       kind: Rule
-      priority: 1  # 낮은 우선순위 (다른 API 경로들이 먼저 매칭)
+      priority: 10  # API와 모니터링보다는 낮지만, 기본값(0)보다는 높게
       services:
         - name: frontend-service
           port: 80
