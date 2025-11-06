@@ -53,7 +53,19 @@ spec:
       middlewares:
         - name: test-server-middleware # 'test' 네임스페이스의 미들웨어
           namespace: test
-  
+
+    # --- 4. 프론트엔드 (Frontend) ---
+    # 주의: 프론트엔드는 가장 마지막에 선언 (API 경로들이 먼저 매칭되도록)
+
+    # Dev 프론트엔드 (기본)
+    - match: Host(`tickget.kr`) && PathPrefix(`/`)
+      kind: Rule
+      priority: 1  # 낮은 우선순위 (다른 API 경로들이 먼저 매칭)
+      services:
+        - name: frontend-service
+          port: 80
+          namespace: dev
+
   # --- TLS (HTTPS) 설정 ---
   tls:
     secretName: tickget-kr-tls # 기존 인증서 Secret 재사용
