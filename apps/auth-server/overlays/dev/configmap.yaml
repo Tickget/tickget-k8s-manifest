@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-server-config
+data:
+  # MySQL URL (비밀번호 제외)
+  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8"
+  SPRING_DATASOURCE_DRIVER: "com.mysql.cj.jdbc.Driver"
+
+  # JPA
+  SPRING_JPA_DDL_AUTO: "update"
+
+  # Redis (default 네임스페이스 - FQDN)
+  SPRING_REDIS_HOST: "redis-service.default.svc.cluster.local"
+  SPRING_REDIS_PORT: "6379"
+
+  # Frontend URL
+  FRONTEND_URL: "https://tickget.kr"
+
+  # OAuth2 Redirect URI (Google 로그인 후 콜백 URL)
+  OAUTH2_REDIRECT_URI: "https://tickget.kr/api/v1/dev/auth/login/oauth2/code/{registrationId}"
+
+  # JWT 토큰 유효기간 (밀리초)
+  JWT_ACCESS_TOKEN_VALIDITY: "3600000"     # 1시간
+  JWT_REFRESH_TOKEN_VALIDITY: "604800000"  # 7일
+
+  # Logging
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_LEVEL_TICKGET: "DEBUG"
+  LOGGING_LEVEL_SECURITY: "DEBUG"

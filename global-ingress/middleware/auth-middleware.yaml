@@ -1,0 +1,21 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: auth-middleware
+  namespace: dev
+spec:
+  forwardAuth:
+    # Auth Server의 JWT 검증 엔드포인트 (클러스터 내부 통신)
+    address: http://auth-server-service.dev.svc.cluster.local/api/auth/validate
+
+    # Auth Server가 검증 성공 시 반환하는 헤더를 원본 요청에 추가
+    authResponseHeaders:
+      - X-User-Id
+      - X-User-Email
+
+    # Forward된 헤더 신뢰
+    trustForwardHeader: true
+
+    # Auth Server에 전달할 헤더 (Authorization 헤더 포함)
+    authRequestHeaders:
+      - Authorization

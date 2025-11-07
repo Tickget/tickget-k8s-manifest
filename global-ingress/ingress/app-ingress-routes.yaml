@@ -7,6 +7,10 @@ spec:
   entryPoints:
     - websecure # HTTPS
   routes:
+    # --- 0. Auth Server (인증 서비스) ---
+    # ⚠️ auth-server 라우팅은 apps/auth-server/overlays/dev/ingress-route.yaml로 이동됨
+    # 서비스별 IngressRoute 분리 전략 적용 중
+
     # --- 1. 운영 환경 (Prod / master) ---
     # 경로: /api/v1/tkt/*
     - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/tkt`)
@@ -39,7 +43,9 @@ spec:
           port: 80
           namespace: dev # dev 네임스페이스로 라우팅
       middlewares:
-        - name: room-server-middleware # 'dev' 네임스페이스의 미들웨어
+        - name: auth-middleware         # ⭐ 1. 먼저 인증 확인 (ForwardAuth)
+          namespace: dev
+        - name: room-server-middleware  # 2. 그 다음 경로 수정 (StripPrefix)
           namespace: dev
 
     # --- 3. 테스트 환경 (Test / test-dev) ---

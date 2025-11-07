@@ -1,0 +1,26 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: auth-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Auth Server - 모든 인증 관련 경로
+    # OAuth2, 토큰 관리, 사용자 정보 등
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/auth`)
+      kind: Rule
+      priority: 200  # 최우선 (다른 API보다 구체적이므로)
+      services:
+        - name: auth-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        - name: auth-server-middleware  # StripPrefix: /api/v1/dev/auth 제거
+          namespace: dev
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls
+    # Secret은 default 네임스페이스에 있지만, Traefik이 자동으로 찾음
