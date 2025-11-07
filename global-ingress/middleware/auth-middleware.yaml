@@ -6,7 +6,7 @@ metadata:
 spec:
   forwardAuth:
     # Auth Server의 JWT 검증 엔드포인트 (클러스터 내부 통신)
-    address: http://auth-server-service.dev.svc.cluster.local/api/auth/validate
+    address: http://auth-server-service.dev.svc.cluster.local/validate
 
     # Auth Server가 검증 성공 시 반환하는 헤더를 원본 요청에 추가
     authResponseHeaders:
