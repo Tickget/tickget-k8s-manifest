@@ -5,7 +5,6 @@ kind: Kustomization
 # 1. 사용할 base
 resources:
 - ../../base
-- namespace.yaml
 
 # 2. dev 네임스페이스 적용
 namespace: dev

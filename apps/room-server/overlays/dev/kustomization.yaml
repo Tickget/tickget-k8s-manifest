@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
 - ../../base
 # 2. 이 환경(dev)에만 추가할 리소스
-- namespace.yaml
 - configmap.yaml
 - secret.yaml
 - middleware.yaml

@@ -1,5 +1,0 @@
-# apps/ticketing-server/overlays/test/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: test # 'test' 네임스페이스를 생성
