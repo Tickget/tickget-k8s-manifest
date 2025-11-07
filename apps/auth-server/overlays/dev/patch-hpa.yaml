@@ -3,6 +3,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: auth-server-hpa
 spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: auth-server-deployment
   minReplicas: 1   # dev 환경: 최소 1개
   maxReplicas: 5   # dev 환경: 최대 5개
   metrics:
