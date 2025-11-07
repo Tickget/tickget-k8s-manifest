@@ -17,7 +17,7 @@ spec:
         # 1단계에서 푸시한 Docker Hub 이미지 (태그는 overlays에서 지정)
         image: kkaebu/ticketing-server
         # kustomize가 관리할 것이기에 삭제제
-        # imagePullPolicy: Always # 항상 최신 이미지를 받음
+        imagePullPolicy: Always # 항상 최신 이미지를 받음
         ports:
         - containerPort: 8080 # Spring Boot 기본 포트
         envFrom:

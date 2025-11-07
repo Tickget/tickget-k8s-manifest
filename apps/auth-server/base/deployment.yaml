@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: auth-server
-        image: kkaebu/auth-server
+        image: kkaebu/auth-server:dev-latest
+        imagePullPolicy: Always  # 항상 최신 이미지를 pull
         ports:
         - containerPort: 8080
         envFrom:

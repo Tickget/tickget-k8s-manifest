@@ -15,6 +15,7 @@ spec:
       containers:
       - name: room-server
         image: kkaebu/room-server
+        imagePullPolicy: Always  # 항상 최신 이미지를 pull
         ports:
         - containerPort: 8080
         envFrom:
