@@ -15,6 +15,7 @@ spec:
       containers:
       - name: frontend
         image: kkaebu/tickget-frontend
+        imagePullPolicy: Always  # 항상 최신 이미지를 pull
         ports:
         - containerPort: 80
         resources:
