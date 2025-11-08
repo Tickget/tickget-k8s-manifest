@@ -12,6 +12,7 @@ spec:
     authResponseHeaders:
       - X-User-Id
       - X-User-Email
+      - X-User-Type  # USER 또는 BOT
 
     # Forward된 헤더 신뢰
     trustForwardHeader: true
