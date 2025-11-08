@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev
+
+# base 디렉토리 참조
+bases:
+  - ../../base
+
+# ConfigMap, Secret, Middleware, Ingress 추가
+resources:
+  - configmap.yaml
+  - secret.yaml
+  - middleware.yaml
+  - ingress-route.yaml
+
+# 이미지 태그 설정 (Docker Hub)
+images:
+  - name: kkaebu/bot-server
+    newTag: dev-latest  # 또는 특정 버전 태그
+
+# 공통 레이블 추가
+commonLabels:
+  environment: dev

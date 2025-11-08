@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: bot-server-middleware
+  namespace: dev
+spec:
+  stripPrefix:
+    prefixes:
+      - /api/v1/dev/bt  # /api/v1/dev/bt/* -> /* 로 변환

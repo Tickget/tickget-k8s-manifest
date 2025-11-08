@@ -1,0 +1,26 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bot-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Bot Server - 봇 시뮬레이션 및 매치 관리
+    # 경로: /api/v1/dev/bt/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/bt`)
+      kind: Rule
+      priority: 200  # 높은 우선순위 (구체적인 경로)
+      services:
+        - name: bot-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        # auth-middleware 없음 (봇 서버는 인증 불필요)
+        - name: bot-server-middleware  # 경로 수정 (StripPrefix)
+          namespace: dev
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

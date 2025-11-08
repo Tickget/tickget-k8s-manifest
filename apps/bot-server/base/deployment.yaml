@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot-server-deployment
+spec:
+  replicas: 1  # Go 애플리케이션 (봇 시뮬레이션용)
+  selector:
+    matchLabels:
+      app: bot-server
+  template:
+    metadata:
+      labels:
+        app: bot-server
+    spec:
+      containers:
+      - name: bot-server
+        # Docker Hub 이미지 (태그는 overlays에서 지정)
+        image: kkaebu/bot-server
+        imagePullPolicy: Always  # 항상 최신 이미지를 받음
+        ports:
+        - containerPort: 8080  # Gin 서버 포트
+        envFrom:
+          # ConfigMap의 모든 데이터를 환경변수로 주입
+          - configMapRef:
+              name: bot-server-config
+          # Secret의 모든 데이터를 환경변수로 주입
+          - secretRef:
+              name: bot-server-secret
+        resources:
+          requests:  # 최소 보장 리소스 (Go 애플리케이션, 봇 부하 고려)
+            memory: "512Mi"
+            cpu: "250m"
+          limits:  # 최대 사용 가능 리소스
+            memory: "1Gi"
+            cpu: "500m"
+        # 헬스 체크 설정
+        readinessProbe:  # 파드가 요청을 받을 준비가 되었는지
+          httpGet:
+            path: /health  # Go 서버 헬스체크 엔드포인트
+            port: 8080
+          initialDelaySeconds: 10  # 시작 후 10초 대기
+          periodSeconds: 10  # 10초마다 체크
+        livenessProbe:  # 파드가 살아있는지 (죽었으면 재시작)
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 20  # 시작 후 20초 대기
+          periodSeconds: 15

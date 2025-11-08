@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bot-server-config
+data:
+  # Server Configuration
+  SERVER_PORT: "8080"
+  ENVIRONMENT: "development"
+
+  # External API URLs (클러스터 내부 서비스)
+  # ticketing-server로 봇이 티켓 예매 요청
+  TICKETING_API_URL: "http://ticketing-server-service.dev.svc.cluster.local:80"
+
+  # stats-server는 아직 배포되지 않았으므로 TODO로 남겨둠
+  # 배포 후 업데이트 필요
+  STATS_SERVER_URL: "http://stats-server-service.dev.svc.cluster.local:80"
+
+  # Bot Configuration
+  MAX_CONCURRENT_BOTS: "50000"
+
+  # Logging
+  LOG_LEVEL: "debug"
+
+  # MinIO (클러스터 내부 - default 네임스페이스)
+  MINIO_ENDPOINT: "http://minio-service.default.svc.cluster.local:9000"
+  MINIO_BUCKET_NAME: "venues"
+  MINIO_USE_SSL: "false"
+
+  # Kafka (클러스터 내부 - default 네임스페이스)
+  KAFKA_BROKERS: "kafka-service.default.svc.cluster.local:9092"
+  KAFKA_GROUP_ID: "bot-server-group-dev"
+  KAFKA_TOPIC: "match-start"
