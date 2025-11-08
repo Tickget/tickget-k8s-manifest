@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: captcha-server-deployment
+spec:
+  replicas: 1  # Python Flask 애플리케이션 (경량)
+  selector:
+    matchLabels:
+      app: captcha-server
+  template:
+    metadata:
+      labels:
+        app: captcha-server
+    spec:
+      containers:
+      - name: captcha-server
+        # Docker Hub 이미지 (태그는 overlays에서 지정)
+        image: kkaebu/captcha-server
+        imagePullPolicy: Always  # 항상 최신 이미지를 받음
+        ports:
+        - containerPort: 8080  # Flask/Gunicorn 포트
+        envFrom:
+          # ConfigMap의 모든 데이터를 환경변수로 주입
+          - configMapRef:
+              name: captcha-server-config
+        resources:
+          requests:  # 최소 보장 리소스 (Python 애플리케이션이므로 가볍게 설정)
+            memory: "256Mi"
+            cpu: "100m"
+          limits:  # 최대 사용 가능 리소스
+            memory: "512Mi"
+            cpu: "250m"
+        # 헬스 체크 설정 (Flask 애플리케이션)
+        readinessProbe:  # 파드가 요청을 받을 준비가 되었는지
+          httpGet:
+            path: /  # index route redirects to /swagger-ui
+            port: 8080
+          initialDelaySeconds: 15  # 시작 후 15초 대기
+          periodSeconds: 10  # 10초마다 체크
+        livenessProbe:  # 파드가 살아있는지 (죽었으면 재시작)
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30  # 시작 후 30초 대기
+          periodSeconds: 15

@@ -1,0 +1,47 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: captcha-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Captcha Server - CAPTCHA 생성 및 검증
+    # 경로: /api/v1.0/captcha/* (captcha-server의 원래 경로 그대로 사용)
+    # 주의: 다른 서버들과 달리 /api/v1/dev/cap이 아닌 /api/v1.0/captcha 사용
+    # 이유: 개발자 테스트용이며, 내부 통신이 주 목적이므로 코드 수정 없이 사용
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1.0/captcha`)
+      kind: Rule
+      priority: 200  # 높은 우선순위 (구체적인 경로)
+      services:
+        - name: captcha-server-service
+          port: 80
+          namespace: dev
+      # auth-middleware 없음 (bot-server처럼 인증 불필요)
+      # stripPrefix도 없음 (원래 경로 그대로 전달)
+
+    # Swagger UI 접근 (개발자 테스트용)
+    - match: Host(`tickget.kr`) && PathPrefix(`/swagger-ui`)
+      kind: Rule
+      priority: 200
+      services:
+        - name: captcha-server-service
+          port: 80
+          namespace: dev
+
+    # Root redirect (/ -> /swagger-ui)
+    # 주의: 이 규칙은 priority가 낮아야 다른 서비스에 영향 없음
+    # 실제로는 frontend가 / 를 처리하므로, 이 규칙은 제거하거나 매우 낮은 우선순위 설정
+    # 여기서는 주석 처리 (frontend와 충돌 방지)
+    # - match: Host(`tickget.kr`) && Path(`/`)
+    #   kind: Rule
+    #   priority: 5
+    #   services:
+    #     - name: captcha-server-service
+    #       port: 80
+    #       namespace: dev
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

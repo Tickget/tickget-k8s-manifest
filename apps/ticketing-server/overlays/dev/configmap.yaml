@@ -55,7 +55,6 @@ data:
   MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus"
   MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
 
-  # Captcha (TODO: captcha-server 배포 후 업데이트 필요)
-  # 현재는 더미 값 또는 미사용 상태로 설정
-  CAPTCHA_ADDRESS: "http://captcha-server-service.dev.svc.cluster.local:8080/api/v1.0/captcha/"
+  # Captcha (captcha-server - 클러스터 내부 - dev 네임스페이스)
+  CAPTCHA_ADDRESS: "http://captcha-server-service.dev.svc.cluster.local:80/api/v1.0/captcha/"
   CAPTCHA_TIMEOUT: "5000"
