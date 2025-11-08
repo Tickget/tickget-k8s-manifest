@@ -29,7 +29,7 @@ data:
   SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.default.svc.cluster.local:9092"
   SPRING_KAFKA_GROUP_ID: "room-server-dev"
   SPRING_KAFKA_AUTO_OFFSET_RESET: "earliest"
-  SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafka"
+  SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafaka"
 
   # MinIO (default 네임스페이스 - FQDN)
   MINIO_URL: "http://minio-service.default.svc.cluster.local:9000"

@@ -1,0 +1,28 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: room-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Room Server - 대기방, 매치 관리, WebSocket 등
+    # 경로: /api/v1/dev/rms/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms`)
+      kind: Rule
+      priority: 200  # 높은 우선순위 (구체적인 경로)
+      services:
+        - name: room-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        - name: auth-middleware         # 1. 먼저 인증 확인 (ForwardAuth)
+          namespace: dev
+        - name: room-server-middleware  # 2. 경로 수정 (StripPrefix)
+          namespace: dev
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls
+    # Secret은 default 네임스페이스에 있지만, Traefik이 자동으로 찾음
