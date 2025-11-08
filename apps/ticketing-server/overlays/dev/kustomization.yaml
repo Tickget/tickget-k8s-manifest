@@ -9,6 +9,7 @@ resources:
 - configmap.yaml
 - secret.yaml
 - middleware.yaml
+- ingress-route.yaml
 
 # 3. 이 환경의 모든 리소스에 'dev' 네임스페이스 적용
 namespace: dev

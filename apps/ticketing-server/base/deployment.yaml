@@ -25,8 +25,8 @@ spec:
           - configMapRef:
               name: ticketing-server-config
           # Secret의 모든 데이터를 환경변수로 주입
-          # - secretRef:
-              # name: ticketing-server-secret
+          - secretRef:
+              name: ticketing-server-secret
         resources:
           requests: # 최소 보장 리소스
             memory: "1Gi"
@@ -34,16 +34,16 @@ spec:
           limits: # 최대 사용 가능 리소스
             memory: "2Gi"
             cpu: "1"
-        # 헬스 체크 설정 (HealthController 사용)
+        # 헬스 체크 설정 (Spring Boot Actuator 사용)
         readinessProbe: # 파드가 요청을 받을 준비가 되었는지
           httpGet:
-            path: /health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 30 # 시작 후 30초 대기
           periodSeconds: 10 # 10초마다 체크
         livenessProbe: # 파드가 살아있는지 (죽었으면 재시작)
           httpGet:
-            path: /health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 60 # 시작 후 60초 대기
           periodSeconds: 15
