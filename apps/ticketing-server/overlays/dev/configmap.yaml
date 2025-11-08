@@ -40,6 +40,10 @@ data:
   SPRING_KAFKA_PRODUCER_KEY-SERIALIZER: "org.apache.kafka.common.serialization.StringSerializer"
   SPRING_KAFKA_PRODUCER_VALUE-SERIALIZER: "org.springframework.kafka.support.serializer.JsonSerializer"
   SPRING_KAFKA_PRODUCER_PROPERTIES_SPRING_JACKSON_DATE-FORMAT: "yyyy-MM-dd HH:mm:ss"
+  # QueueTopicProps (QueueTopicConfig, QueueTopicReconciler)가 사용하는 설정
+  APP_KAFKA_TOPICS_QUEUE_NAME: "user-log"
+  APP_KAFKA_TOPICS_QUEUE_PARTITIONS: "3"
+  APP_KAFKA_TOPICS_QUEUE_REPLICAS: "1"
 
   # Logging
   LOGGING_LEVEL_ORG_HIBERNATE_SQL: "debug"
