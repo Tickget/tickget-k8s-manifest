@@ -21,7 +21,7 @@ data:
   OAUTH2_REDIRECT_URI: "https://tickget.kr/api/v1/dev/auth/login/oauth2/code/{registrationId}"
 
   # JWT 토큰 유효기간 (밀리초)
-  JWT_ACCESS_TOKEN_VALIDITY: "3600000"     # 1시간
+  JWT_ACCESS_TOKEN_VALIDITY: "86400000"     # 1시간
   JWT_REFRESH_TOKEN_VALIDITY: "604800000"  # 7일
 
   # Logging
