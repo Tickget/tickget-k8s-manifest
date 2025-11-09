@@ -31,9 +31,9 @@ data:
   SPRING_KAFKA_AUTO_OFFSET_RESET: "earliest"
   SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafaka"
 
-  # MinIO (default 네임스페이스 - FQDN)
-  MINIO_URL: "http://minio-service.default.svc.cluster.local:9000"
-  MINIO_BUCKET_NAME: "room-server-dev-bucket"
+  # MinIO (외부 EC2 S3 서버)
+  MINIO_URL: "https://s3.tickget.kr"
+  MINIO_BUCKET_NAME: "tickget-dev"
 
   # Resilience4j
   RETRY_MAX_ATTEMPTS: "3"

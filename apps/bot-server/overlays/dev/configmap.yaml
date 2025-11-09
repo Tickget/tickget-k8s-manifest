@@ -21,10 +21,10 @@ data:
   # Logging
   LOG_LEVEL: "debug"
 
-  # MinIO (클러스터 내부 - default 네임스페이스)
-  MINIO_ENDPOINT: "http://minio-service.default.svc.cluster.local:9000"
-  MINIO_BUCKET_NAME: "venues"
-  MINIO_USE_SSL: "false"
+  # MinIO (외부 EC2 S3 서버)
+  MINIO_ENDPOINT: "s3.tickget.kr"
+  MINIO_BUCKET_NAME: "tickget-dev"
+  MINIO_USE_SSL: "true"
 
   # Kafka (클러스터 내부 - default 네임스페이스)
   KAFKA_BROKERS: "kafka-service.default.svc.cluster.local:9092"
