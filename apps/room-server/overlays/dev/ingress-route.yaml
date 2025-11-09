@@ -21,11 +21,24 @@ spec:
         - name: room-server-middleware  # StripPrefix만 적용 (인증 없음)
           namespace: dev
 
+    # 방 목록 조회 및 방 상세 조회 - 인증 제외 (공개 API)
+    # 경로: GET /api/v1/dev/rms/rooms, GET /api/v1/dev/rms/rooms/{roomId}
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms/rooms`) && Method(`GET`)
+      kind: Rule
+      priority: 240  # REST API보다 높은 우선순위 (더 구체적인 경로)
+      services:
+        - name: room-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        - name: room-server-middleware  # StripPrefix만 적용 (인증 없음)
+          namespace: dev
+
     # Room Server REST API - ForwardAuth 적용
-    # 경로: /api/v1/dev/rms/* (WebSocket 제외)
+    # 경로: /api/v1/dev/rms/* (WebSocket, 방 조회 제외)
     - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms`)
       kind: Rule
-      priority: 200  # 높은 우선순위 (구체적인 경로)
+      priority: 200  # 낮은 우선순위 (나머지 모든 경로)
       services:
         - name: room-server-service
           port: 80
