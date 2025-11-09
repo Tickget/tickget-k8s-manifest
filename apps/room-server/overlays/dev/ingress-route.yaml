@@ -7,8 +7,22 @@ spec:
   entryPoints:
     - websecure  # HTTPS
   routes:
-    # Room Server - 대기방, 매치 관리, WebSocket 등
-    # 경로: /api/v1/dev/rms/*
+    # WebSocket 엔드포인트 - 인증 제외 (SockJS/STOMP 연결용)
+    # 경로: /api/v1/dev/rms/ws/*
+    # ⚠️ WebSocket은 STOMP CONNECT 프레임에서 별도 인증 처리
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms/ws`)
+      kind: Rule
+      priority: 250  # room-server REST API보다 높은 우선순위 (더 구체적인 경로)
+      services:
+        - name: room-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        - name: room-server-middleware  # StripPrefix만 적용 (인증 없음)
+          namespace: dev
+
+    # Room Server REST API - ForwardAuth 적용
+    # 경로: /api/v1/dev/rms/* (WebSocket 제외)
     - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/rms`)
       kind: Rule
       priority: 200  # 높은 우선순위 (구체적인 경로)

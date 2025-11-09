@@ -122,13 +122,9 @@ data:
             separator: /
             replacement: /var/log/pods/*$1/*.log
 
-          # Drop empty pod labels
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
-
-          # Drop metadata labels
+          # Drop all metadata labels to prevent label explosion
           - action: labeldrop
-            regex: __meta_kubernetes_pod_.*
+            regex: __meta_kubernetes_pod_label_(app_kubernetes_io|apps_kubernetes_io|controller_revision_hash|operator_prometheus_io|pod_template_hash|statefulset_kubernetes_io).*
 ---
 apiVersion: apps/v1
 kind: DaemonSet
