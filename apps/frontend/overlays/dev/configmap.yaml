@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-env
+  namespace: dev
+data:
+  # 개발 환경 API 설정
+  VITE_API_PREFIX_DEV: "/api/v1/dev"
+  VITE_API_ORIGIN: "https://tickget.kr"
+  VITE_API_PREFIX: "/api/v1"
+
+  # 서비스별 URL (선택적, 없으면 PREFIX 사용)
+  VITE_ROOM_SERVER_URL: ""
+  VITE_TICKETING_SERVER_URL: ""
