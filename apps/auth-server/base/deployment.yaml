@@ -37,11 +37,15 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 120
           periodSeconds: 10
+          timeoutSeconds: 5         # 추가
+          failureThreshold: 3       # 추가
         livenessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 150
           periodSeconds: 15
+          timeoutSeconds: 5         # 추가
+          failureThreshold: 3       # 추가
