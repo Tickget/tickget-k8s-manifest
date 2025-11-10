@@ -30,8 +30,8 @@ spec:
               name: room-server-secret
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "768Mi"
+            cpu: "300m"
           limits:
             memory: "2Gi"
             cpu: "1"

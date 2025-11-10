@@ -29,8 +29,8 @@ spec:
               name: ticketing-server-secret
         resources:
           requests: # 최소 보장 리소스
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "768Mi"
+            cpu: "300m"
           limits: # 최대 사용 가능 리소스
             memory: "2Gi"
             cpu: "1"

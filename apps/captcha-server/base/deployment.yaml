@@ -25,8 +25,8 @@ spec:
               name: captcha-server-config
         resources:
           requests:  # 최소 보장 리소스 (Python 애플리케이션이므로 가볍게 설정)
-            memory: "256Mi"
-            cpu: "100m"
+            memory: "128Mi"
+            cpu: "50m"
           limits:  # 최대 사용 가능 리소스
             memory: "512Mi"
             cpu: "250m"
