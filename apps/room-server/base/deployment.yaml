@@ -18,6 +18,11 @@ spec:
         imagePullPolicy: Always  # 항상 최신 이미지를 pull
         ports:
         - containerPort: 8080
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         envFrom:
           - configMapRef:
               name: room-server-config
