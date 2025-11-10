@@ -8,7 +8,7 @@ spec:
     kind: Deployment
     name: auth-server-deployment
   minReplicas: 1   # dev 환경: 최소 1개
-  maxReplicas: 5   # dev 환경: 최대 5개
+  maxReplicas: 3   # dev 환경: 최대 5개
   metrics:
   - type: Resource
     resource:

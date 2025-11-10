@@ -32,7 +32,7 @@ spec:
             cpu: "250m"
           limits:
             memory: "2Gi"
-            cpu: "1000m"
+            cpu: "800m"
         readinessProbe:
           httpGet:
             path: /pipeline/health # main_modular.py에 정의된 헬스 체크

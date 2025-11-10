@@ -39,10 +39,10 @@ spec:
         resources:
           requests:  # 최소 보장 리소스 (Go 애플리케이션, 봇 부하 고려)
             memory: "128Mi"
-            cpu: "50m"
+            cpu: "100m"
           limits:  # 최대 사용 가능 리소스
             memory: "1Gi"
-            cpu: "500m"
+            cpu: "400m"
         # 헬스 체크 설정
         readinessProbe:  # 파드가 요청을 받을 준비가 되었는지
           httpGet:

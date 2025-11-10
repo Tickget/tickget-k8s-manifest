@@ -32,11 +32,11 @@ spec:
               name: ticketing-server-secret
         resources:
           requests: # 최소 보장 리소스
-            memory: "512Mi"
-            cpu: "100m"
+            memory: "700Mi"
+            cpu: "400m"
           limits: # 최대 사용 가능 리소스
             memory: "2Gi"
-            cpu: "1"
+            cpu: "800m"
         # 헬스 체크 설정 (Spring Boot Actuator 사용)
         readinessProbe: # 파드가 요청을 받을 준비가 되었는지
           httpGet:
