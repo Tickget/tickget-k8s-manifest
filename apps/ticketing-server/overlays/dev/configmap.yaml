@@ -53,7 +53,7 @@ data:
   SCHEDULING_POOL_SIZE: "4"
 
   # Logging
-  LOG_SQL_LEVEL: "debug"
+  LOG_SQL_LEVEL: "warn"
   LOG_APP_LEVEL: "info"
   LOG_MONGO_LEVEL: "debug"
   LOG_KAFKA_LEVEL: "info"
