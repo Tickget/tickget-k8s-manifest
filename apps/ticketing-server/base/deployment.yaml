@@ -42,11 +42,15 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30 # 시작 후 30초 대기
+          initialDelaySeconds: 120 # 시작 후 120초 대기
           periodSeconds: 10 # 10초마다 체크
+          timeoutSeconds: 5         # 추가
+          failureThreshold: 3       # 추가
         livenessProbe: # 파드가 살아있는지 (죽었으면 재시작)
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60 # 시작 후 60초 대기
+          initialDelaySeconds: 150 # 시작 후 150초 대기
           periodSeconds: 15
+          timeoutSeconds: 5         # 추가
+          failureThreshold: 3       # 추가
