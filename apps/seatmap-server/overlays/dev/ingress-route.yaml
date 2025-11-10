@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: seatmap-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Seatmap Server - AI 좌석 배치도 처리
+    # 경로: /api/v1/dev/seatmap/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/stmap`)
+      kind: Rule
+      priority: 200
+      services:
+        - name: seatmap-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        # 참고: 이 AI 서버가 인증이 필요하다면 auth-middleware를 추가하세요.
+        - name: auth-middleware
+          namespace: dev
+        - name: seatmap-server-middleware  # 경로 수정 (StripPrefix)
+          namespace: dev
+
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

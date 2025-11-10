@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seatmap-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seatmap-server
+  template:
+    metadata:
+      labels:
+        app: seatmap-server
+    spec:
+      containers:
+      - name: seatmap-server
+        image: kkaebu/seatmap-server # Overlays에서 태그 지정
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 # uvicorn 실행 포트
+        env:
+        - name: TZ  
+          value: "Asia/Seoul"
+        envFrom:
+          - configMapRef:
+              name: seatmap-server-config
+          - secretRef:
+              name: seatmap-server-secret
+        resources:
+          requests: # AI/CV 작업은 리소스를 더 필요로 할 수 있습니다.
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /pipeline/health # main_modular.py에 정의된 헬스 체크
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /pipeline/health
+            port: 8000
+          initialDelaySeconds: 45
+          periodSeconds: 15

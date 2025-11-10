@@ -14,6 +14,7 @@ data:
   # HALLS_API_BASE: "https://tickget.kr/api/v1/dev/rms"
   HALLS_API_BASE: "http://room-server-service.dev.svc.cluster.local:80"
   HALLS_API_ENDPOINT: "/halls"
+  # HALLS_BASE_URL: "https://tickget.kr/api/v1/dev/rms/halls"
   HALLS_BASE_URL: "http://room-server-service.dev.svc.cluster.local:80/halls"
   
   MINIO_OUT_PREFIX: "halls"
