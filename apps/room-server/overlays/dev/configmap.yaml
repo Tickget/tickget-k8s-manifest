@@ -4,7 +4,7 @@ metadata:
   name: room-server-config
 data:
   # MySQL URL (비밀번호 제외)
-  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=true&useUnicode=true&characterEncoding=utf8"
   SPRING_DATASOURCE_DRIVER: "com.mysql.cj.jdbc.Driver"
 
   # JPA
