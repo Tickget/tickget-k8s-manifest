@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seatmap-server-config
+data:
+  # .env 파일의 비-보안 데이터를 기반으로 작성
+  MINIO_ENDPOINT: "s3.tickget.kr"
+  MINIO_BUCKET: "tickget-dev"
+  MINIO_SECURE: "true"
+  
+  # 주석 처리되었지만, python 코드(s3_client.py)에서 참조할 수 있으므로 추가
+  # MINIO_PUBLIC_BASE: "https://s3.tickget.kr" 
+
+  # HALLS_API_BASE: "https://tickget.kr/api/v1/dev/rms"
+  HALLS_API_BASE: "http://room-server-service.dev.svc.cluster.local:80"
+  HALLS_API_ENDPOINT: "/halls"
+  HALLS_BASE_URL: "http://room-server-service.dev.svc.cluster.local:80/halls"
+  
+  MINIO_OUT_PREFIX: "halls"
+
+  # seatmap_to_html/app/config.py 에 정의된 환경 변수
+  OUT_RESULT_DIR: "/mnt/data/result"
