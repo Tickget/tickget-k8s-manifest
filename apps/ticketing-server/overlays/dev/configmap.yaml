@@ -70,4 +70,4 @@ data:
   BOT_SERVICE_URL: "http://bot-server-service.dev.svc.cluster.local:80"
 
   # Room 서버 주소
-  ROOM_SERVICE_URL: "http://room-server-service.dev.svc.cluster.local:80"
+  ROOM_SERVICE_URL: "http://room-server-service.dev.svc.cluster.local"
