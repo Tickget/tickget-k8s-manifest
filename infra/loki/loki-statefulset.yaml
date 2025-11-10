@@ -171,6 +171,9 @@ spec:
           mountPath: /etc/loki
         - name: storage
           mountPath: /loki
+        - name: timezone
+          mountPath: /etc/localtime
+          readOnly: true
         resources:
           requests:
             cpu: 100m
@@ -182,6 +185,10 @@ spec:
       - name: config
         configMap:
           name: loki-config
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
+          type: File
   volumeClaimTemplates:
   - metadata:
       name: storage
