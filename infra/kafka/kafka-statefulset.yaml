@@ -40,6 +40,14 @@ spec:
           value: "/var/lib/kafka/data"
         - name: CLUSTER_ID
           value: "MkU3OEVBNTcwNTJENDM2Qk"
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: "1"
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: "1"
         resources:
           requests:
             memory: "1Gi"
