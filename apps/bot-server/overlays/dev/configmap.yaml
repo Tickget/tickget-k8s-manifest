@@ -30,3 +30,4 @@ data:
   KAFKA_BROKERS: "kafka-service.default.svc.cluster.local:9092"
   KAFKA_GROUP_ID: "bot-server-group-dev"
   KAFKA_TOPIC: "match-start"
+
