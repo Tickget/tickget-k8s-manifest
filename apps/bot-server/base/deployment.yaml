@@ -20,7 +20,7 @@ spec:
         ports:
         - containerPort: 8080  # Gin 서버 포트
         env:
-        - name: TZ  
+        - name: TZ
           value: "Asia/Seoul"
         envFrom:
           # ConfigMap의 모든 데이터를 환경변수로 주입
@@ -29,6 +29,13 @@ spec:
           # Secret의 모든 데이터를 환경변수로 주입
           - secretRef:
               name: bot-server-secret
+        volumeMounts:
+        - name: timezone
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: zoneinfo
+          mountPath: /usr/share/zoneinfo
+          readOnly: true
         resources:
           requests:  # 최소 보장 리소스 (Go 애플리케이션, 봇 부하 고려)
             memory: "128Mi"
@@ -49,3 +56,12 @@ spec:
             port: 8080
           initialDelaySeconds: 20  # 시작 후 20초 대기
           periodSeconds: 15
+      volumes:
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
+          type: File
+      - name: zoneinfo
+        hostPath:
+          path: /usr/share/zoneinfo
+          type: Directory

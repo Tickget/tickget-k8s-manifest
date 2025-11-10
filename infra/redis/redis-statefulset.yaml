@@ -20,7 +20,7 @@ spec:
         image: redis:7-alpine
         command: ["redis-server", "/etc/redis/redis.conf"]
         env:
-        - name: TZ  
+        - name: TZ
           value: "Asia/Seoul"
         ports:
         - containerPort: 6379
@@ -34,10 +34,24 @@ spec:
           mountPath: /data
         - name: redis-config-volume
           mountPath: /etc/redis/
+        - name: timezone
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: zoneinfo
+          mountPath: /usr/share/zoneinfo
+          readOnly: true
       volumes:
       - name: redis-config-volume
         configMap:
           name: redis-config
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
+          type: File
+      - name: zoneinfo
+        hostPath:
+          path: /usr/share/zoneinfo
+          type: Directory
   volumeClaimTemplates:
   - metadata:
       name: redis-storage
