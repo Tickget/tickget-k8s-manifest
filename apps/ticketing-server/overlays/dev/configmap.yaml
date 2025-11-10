@@ -12,6 +12,7 @@ data:
 
   # MongoDB (외부 Azure DB - 로그 저장용)
   MONGO_URI: "mongodb+srv://S13P31A209:tickget209@ssafy.ngivl.mongodb.net/S13P31A209?authSource=admin"
+  MONGO_DATABASE: "S13P31A209"
   MONGO_AUTO_INDEX: "true"
 
   # Redis (클러스터 내부 - default 네임스페이스)
