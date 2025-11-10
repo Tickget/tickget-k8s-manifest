@@ -24,7 +24,7 @@ data:
 
   # JPA
   JPA_DDL_AUTO: "update"
-  HIBERNATE_SHOW_SQL: "true"
+  HIBERNATE_SHOW_SQL: "false"
   HIBERNATE_FORMAT_SQL: "true"
   HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
   SPRING_OPEN_IN_VIEW: "false"
