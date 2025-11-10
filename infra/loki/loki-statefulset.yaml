@@ -145,6 +145,9 @@ spec:
             - name: grpc
               containerPort: 9096
               protocol: TCP
+          env:
+          - name: TZ  
+            value: "Asia/Seoul"
           livenessProbe:
             httpGet:
               path: /ready

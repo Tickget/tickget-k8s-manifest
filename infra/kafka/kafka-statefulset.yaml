@@ -22,6 +22,8 @@ spec:
         - containerPort: 9093
           name: controller
         env:
+        - name: TZ  
+          value: "Asia/Seoul"
         - name: KAFKA_NODE_ID
           value: "1"
         - name: KAFKA_PROCESS_ROLES

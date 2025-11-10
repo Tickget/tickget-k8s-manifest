@@ -18,6 +18,9 @@ spec:
         imagePullPolicy: Always  # 항상 최신 이미지를 pull
         ports:
         - containerPort: 8080
+        env:
+        - name: TZ  
+          value: "Asia/Seoul"
         envFrom:
           - configMapRef:
               name: auth-server-config

@@ -146,7 +146,6 @@ spec:
           image: grafana/promtail:3.0.0
           args:
             - -config.file=/etc/promtail/promtail.yaml
-          env:
             - name: HOSTNAME
               valueFrom:
                 fieldRef:

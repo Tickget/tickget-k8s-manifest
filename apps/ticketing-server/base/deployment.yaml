@@ -20,6 +20,9 @@ spec:
         imagePullPolicy: Always # 항상 최신 이미지를 받음
         ports:
         - containerPort: 8080 # Spring Boot 기본 포트
+        env:
+        - name: TZ  
+          value: "Asia/Seoul"
         envFrom:
           # ConfigMap의 모든 데이터를 환경변수로 주입
           - configMapRef:

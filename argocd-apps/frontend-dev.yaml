@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend-dev
+  namespace: argocd
+  # Finalizer를 설정하여 Application 삭제 시 리소스도 함께 삭제
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # 배포할 프로젝트
+  project: default
+
+  # Git 소스 정보
+  source:
+    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    targetRevision: dev  # dev 브랜치 추적
+    path: apps/frontend/overlays/dev  # Kustomize overlay 경로
+
+  # 배포 대상 클러스터
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+
+  # 동기화 정책
+  syncPolicy:
+    # 자동 동기화 활성화
+    automated:
+      prune: true      # Git에서 삭제된 리소스를 클러스터에서도 삭제
+      selfHeal: true   # 클러스터에서 수동 변경 시 Git 상태로 복구
+      allowEmpty: false
+
+    # 동기화 옵션
+    syncOptions:
+      - CreateNamespace=true  # 네임스페이스 자동 생성
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+
+    # 재시도 정책
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

@@ -19,6 +19,9 @@ spec:
       - name: redis
         image: redis:7-alpine
         command: ["redis-server", "/etc/redis/redis.conf"]
+        env:
+        - name: TZ  
+          value: "Asia/Seoul"
         ports:
         - containerPort: 6379
         resources:

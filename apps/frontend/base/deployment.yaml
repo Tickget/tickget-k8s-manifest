@@ -16,6 +16,9 @@ spec:
       - name: frontend
         image: kkaebu/tickget-frontend
         imagePullPolicy: Always  # 항상 최신 이미지를 pull
+        env:
+        - name: TZ  
+          value: "Asia/Seoul"
         ports:
         - containerPort: 80
         resources:
