@@ -17,7 +17,7 @@ namespace: dev
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/ticketing-server
-  newTag: dev-64a1aaee
+  newTag: dev-8cdc4542
 
 # 5. base의 deployment.yaml replicas 덮어쓰기 (예: dev는 2개만)
 patches:
