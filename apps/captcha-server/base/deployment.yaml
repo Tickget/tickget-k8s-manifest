@@ -4,6 +4,11 @@ metadata:
   name: captcha-server-deployment
 spec:
   replicas: 1  # Python Flask 애플리케이션 (경량)
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0        # 새 Pod를 추가로 생성하지 않음 (리소스 절약)
+      maxUnavailable: 1  # 한 번에 1개씩만 업데이트
   selector:
     matchLabels:
       app: captcha-server
