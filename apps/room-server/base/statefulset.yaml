@@ -12,7 +12,7 @@ spec:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 1  # 한 번에 1개씩만 업데이트
+      partition: 0  # 0번부터 순차 업데이트 (StatefulSet 기본값)
   # Pod 이름 패턴: room-server-0, room-server-1, room-server-2...
   template:
     metadata:
