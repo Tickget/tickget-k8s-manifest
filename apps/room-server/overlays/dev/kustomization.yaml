@@ -14,14 +14,14 @@ resources:
 # 3. 이 환경의 모든 리소스에 'dev' 네임스페이스 적용
 namespace: dev
 
-# 4. base의 deployment.yaml 이미지 태그 덮어쓰기
+# 4. base의 statefulset.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/room-server
   newTag: dev-4a19f638
 
-# 5. base의 deployment.yaml replicas 덮어쓰기
+# 5. base의 statefulset.yaml replicas 덮어쓰기
 patches:
 - path: patch-replicas.yaml
   target:
-    kind: Deployment
-    name: room-server-deployment
+    kind: StatefulSet
+    name: room-server

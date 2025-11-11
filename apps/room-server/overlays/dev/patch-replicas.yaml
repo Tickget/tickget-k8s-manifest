@@ -1,7 +1,7 @@
 # apps/room-server/overlays/dev/patch-replicas.yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: room-server-deployment
+  name: room-server
 spec:
   replicas: 2
