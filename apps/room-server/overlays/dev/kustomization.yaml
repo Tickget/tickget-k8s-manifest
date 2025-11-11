@@ -17,7 +17,7 @@ namespace: dev
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/room-server
-  newTag: dev-latest
+  newTag: dev-8b568341
 
 # 5. base의 deployment.yaml replicas 덮어쓰기
 patches:
