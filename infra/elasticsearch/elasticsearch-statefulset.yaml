@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+  namespace: default
+spec:
+  serviceName: elasticsearch-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      # Worker 노드에만 배포
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: Exists
+
+      initContainers:
+      # vm.max_map_count 설정 (Elasticsearch 요구사항)
+      - name: increase-vm-max-map
+        image: busybox:1.35
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        securityContext:
+          privileged: true
+
+      # ulimit 설정
+      - name: increase-fd-ulimit
+        image: busybox:1.35
+        command: ["sh", "-c", "ulimit -n 65536"]
+        securityContext:
+          privileged: true
+
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+        imagePullPolicy: IfNotPresent
+
+        # 최소 리소스 설정 (티켓팅 트래픽 대비)
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
+        ports:
+        - containerPort: 9200
+          name: http
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+
+        env:
+        # JVM Heap 설정 (메모리의 50%)
+        - name: ES_JAVA_OPTS
+          value: "-Xms256m -Xmx512m"
+
+        # 단일 노드 설정
+        - name: discovery.type
+          value: single-node
+
+        - name: cluster.name
+          value: tickget-search-cluster
+
+        - name: node.name
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+
+        # 보안 비활성화 (개발 환경)
+        - name: xpack.security.enabled
+          value: "false"
+
+        volumeMounts:
+        - name: elasticsearch-config
+          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+          subPath: elasticsearch.yml
+        - name: elasticsearch-data
+          mountPath: /usr/share/elasticsearch/data
+
+        # Health Check
+        livenessProbe:
+          httpGet:
+            path: /_cluster/health
+            port: 9200
+          initialDelaySeconds: 90
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 5
+
+        readinessProbe:
+          httpGet:
+            path: /_cluster/health?wait_for_status=yellow
+            port: 9200
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 3
+
+      volumes:
+      - name: elasticsearch-config
+        configMap:
+          name: elasticsearch-config
+
+  # PersistentVolumeClaim (10GB - 검색 데이터용)
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 10Gi

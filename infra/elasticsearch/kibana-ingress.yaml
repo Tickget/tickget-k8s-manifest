@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kibana-ingress
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`es.tickget.kr`)
+      kind: Rule
+      services:
+        - name: kibana-service
+          port: 5601
+  tls:
+    secretName: es-tickget-kr-tls
