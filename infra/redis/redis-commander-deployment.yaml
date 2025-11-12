@@ -24,7 +24,7 @@ spec:
         - name: HTTP_USER
           value: "admin"
         - name: HTTP_PASSWORD
-          value: "tickget2024"  # 보안을 위해 추후 Secret으로 변경 권장
+          value: "tickget209"  # 보안을 위해 추후 Secret으로 변경 권장
         - name: PORT
           value: "8081"
         ports:
