@@ -52,6 +52,10 @@ spec:
         - name: LOGGING_LEVEL_COM_PROVECTUS_KAFKA_UI
           value: "DEBUG"
 
+        # 서브패스 설정 (/kafka 경로로 접근)
+        - name: SERVER_SERVLET_CONTEXT_PATH
+          value: "/kafka"
+
         - name: SERVER_PORT
           value: "8080"
           

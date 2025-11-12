@@ -38,11 +38,9 @@ spec:
     - match: Host(`tickget.kr`) && PathPrefix(`/kafka`)
       kind: Rule
       priority: 20
-      middlewares:
-        - name: kafka-ui-stripprefix # 1번 파일에서 생성한 Middleware
-          namespace: monitoring
+      # middlewares 제거 (Kafka UI가 SERVER_SERVLET_CONTEXT_PATH로 직접 처리)
       services:
-        - name: kafka-ui-service # 1번 파일에서 생성한 Service
+        - name: kafka-ui-service # kafka-ui.yaml에서 생성한 Service
           port: 80
           namespace: monitoring
 
