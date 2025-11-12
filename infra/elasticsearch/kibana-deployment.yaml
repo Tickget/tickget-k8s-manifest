@@ -29,14 +29,14 @@ spec:
         image: docker.elastic.co/kibana/kibana:8.11.0
         imagePullPolicy: IfNotPresent
 
-        # 최소 리소스 설정
+        # 최소 리소스 설정 (Kibana 8.11 ARM64 최적화)
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
             memory: "512Mi"
-            cpu: "250m"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
 
         ports:
         - containerPort: 5601
