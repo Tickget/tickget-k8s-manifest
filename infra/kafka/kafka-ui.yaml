@@ -33,8 +33,9 @@ spec:
           value: "kafka-0.kafka-service.default.svc.cluster.local:9092"
 
         # 읽기 전용 모드 (쓰기 작업 비활성화로 안정성 향상)
+        # Consumer Group 삭제를 위해 일시적으로 비활성화
         - name: KAFKA_CLUSTERS_0_READONLY
-          value: "true"
+          value: "false"
 
         # 타임아웃 설정 (밀리초 단위)
         - name: KAFKA_CLUSTERS_0_PROPERTIES_REQUEST_TIMEOUT_MS
