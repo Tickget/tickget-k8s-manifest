@@ -26,19 +26,39 @@ spec:
         env:
         - name: KAFKA_CLUSTERS_0_NAME
           value: "tickget-k8s-cluster" # UI에 표시될 클러스터 이름
-        
+
         # ⭐️ 핵심 설정 ⭐️
         # StatefulSet Pod에 직접 연결 (Headless Service이므로)
         - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
           value: "kafka-0.kafka-service.default.svc.cluster.local:9092"
-          
+
+        # 읽기 전용 모드 (쓰기 작업 비활성화로 안정성 향상)
+        - name: KAFKA_CLUSTERS_0_READONLY
+          value: "true"
+
+        # 타임아웃 설정 (밀리초 단위)
+        - name: KAFKA_CLUSTERS_0_PROPERTIES_REQUEST_TIMEOUT_MS
+          value: "60000"  # 60초
+        - name: KAFKA_CLUSTERS_0_PROPERTIES_DEFAULT_API_TIMEOUT_MS
+          value: "120000" # 120초
+
+        # 동적 설정 비활성화 (메트릭 수집 간소화)
+        - name: DYNAMIC_CONFIG_ENABLED
+          value: "false"
+
+        # 로깅 레벨 설정
+        - name: LOGGING_LEVEL_ROOT
+          value: "INFO"
+        - name: LOGGING_LEVEL_COM_PROVECTUS_KAFKA_UI
+          value: "DEBUG"
+
         - name: SERVER_PORT
           value: "8080"
           
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
+            memory: "512Mi"
+            cpu: "200m"
           limits:
             memory: "1Gi"
             cpu: "500m"
@@ -46,14 +66,18 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60  # 시작 시간을 고려해 증가
           periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60  # 시작 시간을 고려해 증가
           periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
 ---
 # 2. Kafka UI Service
 # (Deployment를 클러스터 내부에 노출)
