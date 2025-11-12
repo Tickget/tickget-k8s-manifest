@@ -52,10 +52,6 @@ spec:
         - name: LOGGING_LEVEL_COM_PROVECTUS_KAFKA_UI
           value: "DEBUG"
 
-        # 서브패스 설정 (/kafka 경로로 접근)
-        - name: SERVER_SERVLET_CONTEXT_PATH
-          value: "/kafka"
-
         - name: SERVER_PORT
           value: "8080"
           
@@ -100,14 +96,22 @@ spec:
   selector:
     app: kafka-ui
 ---
-# 3. Traefik Middleware
-# (Ingress에서 /kafka 경로를 제거하기 위함)
+# 3. Kafka UI IngressRoute (서브도메인 kafka.tickget.kr)
 apiVersion: traefik.io/v1alpha1
-kind: Middleware
+kind: IngressRoute
 metadata:
-  name: kafka-ui-stripprefix
+  name: kafka-ui-ingress
   namespace: monitoring
 spec:
-  stripPrefix:
-    prefixes:
-      - /kafka
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    - match: Host(`kafka.tickget.kr`)
+      kind: Rule
+      services:
+        - name: kafka-ui-service
+          port: 80
+          namespace: monitoring
+  # TLS 설정 (tickget.kr 와일드카드 인증서 사용)
+  tls:
+    secretName: tickget-kr-tls
