@@ -42,8 +42,8 @@ spec:
           mountPath: /usr/share/zoneinfo
           readOnly: true
         resources:
-          requests:  # 최소 보장 리소스 (Go 애플리케이션, 봇 부하 고려)
-            memory: "128Mi"
+          requests:  # Go 애플리케이션, 봇 생성 시 안정성 확보
+            memory: "256Mi"
             cpu: "100m"
           limits:  # 최대 사용 가능 리소스
             memory: "1Gi"

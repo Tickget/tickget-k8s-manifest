@@ -39,7 +39,7 @@ spec:
               name: room-server-secret
         resources:
           requests:
-            memory: "512Mi"
+            memory: "768Mi"  # WebSocket 세션 증가 대비
             cpu: "100m"
           limits:
             memory: "2Gi"

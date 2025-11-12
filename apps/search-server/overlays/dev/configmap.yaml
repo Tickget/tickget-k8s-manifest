@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: search-server-config
+data:
+  # Elasticsearch 연결 정보
+  ELASTICSEARCH_HOSTS: "http://elasticsearch-service.default.svc.cluster.local:9200"
+
+  # Logging
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_LEVEL_SEARCH: "DEBUG"

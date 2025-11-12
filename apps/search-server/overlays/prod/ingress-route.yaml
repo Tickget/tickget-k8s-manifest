@@ -1,0 +1,24 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: search-server-route
+  namespace: prod
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Search Server - 공연장 검색 API (Production)
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/search`)
+      kind: Rule
+      priority: 200
+      services:
+        - name: search-server-service
+          port: 80
+          namespace: prod
+      middlewares:
+        - name: search-server-middleware
+          namespace: prod
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

@@ -32,10 +32,10 @@ spec:
           - secretRef:
               name: seatmap-server-secret
         resources:
-          requests: # AI/CV 작업은 리소스를 더 필요로 할 수 있습니다.
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
+          requests: # 대기 중 최소 리소스, 처리 시 Limits까지 버스트 허용
+            memory: "256Mi"
+            cpu: "100m"
+          limits: # OpenCV/AI 처리 시 필요한 버스트 리소스
             memory: "2Gi"
             cpu: "800m"
         readinessProbe:
