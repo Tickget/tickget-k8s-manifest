@@ -20,7 +20,6 @@ data:
     xpack.security.transport.ssl.enabled: false
 
     # 모니터링 비활성화 (리소스 절약)
-    xpack.monitoring.enabled: false
     xpack.ml.enabled: false
     xpack.watcher.enabled: false
     xpack.graph.enabled: false
