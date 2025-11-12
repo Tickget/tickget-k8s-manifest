@@ -20,7 +20,6 @@ data:
 
     # 모니터링 비활성화 (리소스 절약)
     monitoring.ui.enabled: false
-    xpack.monitoring.enabled: false
 
     # 한글 지원
     i18n.locale: "ko-KR"
