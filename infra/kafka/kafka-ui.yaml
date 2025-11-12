@@ -1,0 +1,85 @@
+# 1. Kafka UI Deployment
+# (provectuslabs/kafka-ui 이미지를 'monitoring' 네임스페이스에 배포)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-ui
+  namespace: monitoring # 모니터링 네임스페이스에 배포
+  labels:
+    app: kafka-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-ui
+  template:
+    metadata:
+      labels:
+        app: kafka-ui
+    spec:
+      containers:
+      - name: kafka-ui
+        image: provectuslabs/kafka-ui:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KAFKA_CLUSTERS_0_NAME
+          value: "tickget-k8s-cluster" # UI에 표시될 클러스터 이름
+        
+        # ⭐️ 핵심 설정 ⭐️
+        # 사용자의 kafka-statefulset.yaml에서 확인한 주소
+        - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+          value: "kafka-service.default.svc.cluster.local:9092"
+          
+        - name: SERVER_PORT
+          value: "8080"
+          
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+# 2. Kafka UI Service
+# (Deployment를 클러스터 내부에 노출)
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-ui-service
+  namespace: monitoring
+  labels:
+    app: kafka-ui
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kafka-ui
+---
+# 3. Traefik Middleware
+# (Ingress에서 /kafka 경로를 제거하기 위함)
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: kafka-ui-stripprefix
+  namespace: monitoring
+spec:
+  stripPrefix:
+    prefixes:
+      - /kafka

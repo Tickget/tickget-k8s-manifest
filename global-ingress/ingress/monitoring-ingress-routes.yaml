@@ -34,6 +34,18 @@ spec:
           port: 9093
           namespace: monitoring
 
+    # Kafka UI
+    - match: Host(`tickget.kr`) && PathPrefix(`/kafka`)
+      kind: Rule
+      priority: 20
+      middlewares:
+        - name: kafka-ui-stripprefix # 1번 파일에서 생성한 Middleware
+          namespace: monitoring
+      services:
+        - name: kafka-ui-service # 1번 파일에서 생성한 Service
+          port: 80
+          namespace: monitoring
+
   # TLS 설정
   tls:
     secretName: tickget-kr-tls
