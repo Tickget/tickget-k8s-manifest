@@ -28,9 +28,9 @@ spec:
           value: "tickget-k8s-cluster" # UI에 표시될 클러스터 이름
         
         # ⭐️ 핵심 설정 ⭐️
-        # 사용자의 kafka-statefulset.yaml에서 확인한 주소
+        # StatefulSet Pod에 직접 연결 (Headless Service이므로)
         - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
-          value: "kafka-service.default.svc.cluster.local:9092"
+          value: "kafka-0.kafka-service.default.svc.cluster.local:9092"
           
         - name: SERVER_PORT
           value: "8080"
