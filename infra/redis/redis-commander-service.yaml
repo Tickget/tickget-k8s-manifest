@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-commander-service
+  namespace: default
+  labels:
+    app: redis-commander
+spec:
+  type: ClusterIP
+  selector:
+    app: redis-commander
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8081

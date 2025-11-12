@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-commander
+  namespace: default
+  labels:
+    app: redis-commander
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-commander
+  template:
+    metadata:
+      labels:
+        app: redis-commander
+    spec:
+      containers:
+      - name: redis-commander
+        image: ghcr.io/joeferner/redis-commander:latest
+        env:
+        - name: REDIS_HOSTS
+          value: "local:redis-service:6379"
+        - name: HTTP_USER
+          value: "admin"
+        - name: HTTP_PASSWORD
+          value: "tickget2024"  # 보안을 위해 추후 Secret으로 변경 권장
+        - name: PORT
+          value: "8081"
+        ports:
+        - containerPort: 8081
+          name: http
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 5
