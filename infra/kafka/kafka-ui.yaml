@@ -114,4 +114,4 @@ spec:
           namespace: monitoring
   # TLS 설정 (tickget.kr 와일드카드 인증서 사용)
   tls:
-    secretName: tickget-kr-tls
+    secretName: kafka-tickget-kr-tls
