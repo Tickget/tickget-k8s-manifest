@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-commander
-  namespace: default
+  namespace: monitoring
   labels:
     app: redis-commander
 spec:
@@ -20,7 +20,7 @@ spec:
         image: ghcr.io/joeferner/redis-commander:latest
         env:
         - name: REDIS_HOSTS
-          value: "local:redis-service:6379"
+          value: "local:redis-service.default.svc.cluster.local:6379"
         - name: HTTP_USER
           value: "admin"
         - name: HTTP_PASSWORD

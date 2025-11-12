@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: redis-commander-ingress
-  namespace: default
+  namespace: monitoring
 spec:
   entryPoints:
     - websecure
@@ -12,6 +12,7 @@ spec:
       services:
         - name: redis-commander-service
           port: 80
+          namespace: monitoring
   # TLS 설정 (redis.tickget.kr 인증서 사용)
   tls:
     secretName: redis-tickget-kr-tls
