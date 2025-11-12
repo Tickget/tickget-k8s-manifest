@@ -14,7 +14,15 @@ spec:
       labels:
         app: elasticsearch
     spec:
-      # Master 노드는 taint로 자동 제외됨
+      # Worker 노드에만 배포
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: Exists
+
       initContainers:
       # vm.max_map_count 설정 (Elasticsearch 요구사항)
       - name: increase-vm-max-map

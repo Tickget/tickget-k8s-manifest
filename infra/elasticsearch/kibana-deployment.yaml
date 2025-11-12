@@ -15,7 +15,15 @@ spec:
       labels:
         app: kibana
     spec:
-      # Master 노드는 taint로 자동 제외됨
+      # Worker 노드에만 배포
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: Exists
+
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:8.11.0
