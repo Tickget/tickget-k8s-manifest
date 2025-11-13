@@ -1,0 +1,26 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: user-server-route
+  namespace: prod
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # user Server API (Production)
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/user`)
+      kind: Rule
+      priority: 200
+      services:
+        - name: user-server-service
+          port: 80
+          namespace: prod
+      middlewares:
+        - name: auth-middleware
+          namespace: prod
+        - name: user-server-middleware
+          namespace: prod
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

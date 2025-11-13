@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-server-config
+data:
+  # Server
+  SERVER_PORT: "8080"
+  SPRING_APP_NAME: "user-server"
+
+  # MySQL (외부 Azure DB - username, password는 Secret에서 주입)
+  DB_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=true&useUnicode=true&characterEncoding=utf8"
+
+  # JPA
+  JPA_DDL_AUTO: "update"
+  HIBERNATE_SHOW_SQL: "false"
+  HIBERNATE_FORMAT_SQL: "true"
+  HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+  SPRING_OPEN_IN_VIEW: "false"
+
+  # MinIO (외부 EC2 S3 서버 - access-key, secret-key는 Secret에서 주입)
+  MINIO_URL: "https://s3.tickget.kr"
+  MINIO_BUCKET_NAME: "tickget-dev"
