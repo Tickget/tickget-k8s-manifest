@@ -33,11 +33,11 @@ spec:
               name: user-server-secret
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "50m"
+            memory: "512Mi"
+            cpu: "250m"
           limits:
-            memory: "256Mi"
-            cpu: "200m"
+            memory: "800Mi"
+            cpu: "500m"
         readinessProbe:
           httpGet:
             path: /actuator/health
