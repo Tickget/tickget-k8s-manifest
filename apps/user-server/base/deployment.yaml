@@ -7,8 +7,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 0        # 새 Pod를 추가로 생성하지 않음 (리소스 절약)
+      maxUnavailable: 1  # 한 번에 1개씩만 업데이트
   selector:
     matchLabels:
       app: user-server
