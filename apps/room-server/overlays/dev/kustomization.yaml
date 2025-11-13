@@ -17,7 +17,7 @@ namespace: dev
 # 4. base의 statefulset.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/room-server
-  newTag: dev-c5401880
+  newTag: dev-7ce1c08b
 
 # 5. base의 statefulset.yaml replicas 덮어쓰기
 patches:
