@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: user-server-dev
+  name: stats-server-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
     targetRevision: dev
-    path: apps/user-server/overlays/dev
+    path: apps/stats-server/overlays/dev
 
   destination:
     server: https://kubernetes.default.svc
