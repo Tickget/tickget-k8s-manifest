@@ -12,7 +12,7 @@ namespace: dev
 
 images:
 - name: kkaebu/auth-server
-  newTag: dev-latest
+  newTag: dev-09819866
 
 patches:
   - path: patch-hpa.yaml
