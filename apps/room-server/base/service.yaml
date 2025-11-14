@@ -10,3 +10,9 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8080
+  # ✅ WebSocket 연결을 위한 Session Affinity 설정
+  # 같은 클라이언트 IP에서 오는 모든 요청을 동일한 Pod으로 라우팅
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3시간 (WebSocket 연결 유지 시간)

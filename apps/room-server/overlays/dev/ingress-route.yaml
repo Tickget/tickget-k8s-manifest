@@ -17,6 +17,14 @@ spec:
         - name: room-server-service
           port: 80
           namespace: dev
+          # ✅ Sticky Session 설정 (Cookie 기반)
+          # WebSocket 연결을 동일한 Pod으로 유지
+          sticky:
+            cookie:
+              name: room_server_affinity
+              secure: true
+              httpOnly: true
+              sameSite: lax
       middlewares:
         - name: room-server-middleware  # StripPrefix만 적용 (인증 없음)
           namespace: dev
@@ -30,6 +38,13 @@ spec:
         - name: room-server-service
           port: 80
           namespace: dev
+          # ✅ Sticky Session 설정 (WebSocket과 동일한 Pod으로 라우팅)
+          sticky:
+            cookie:
+              name: room_server_affinity
+              secure: true
+              httpOnly: true
+              sameSite: lax
       middlewares:
         - name: room-server-middleware  # StripPrefix만 적용 (인증 없음)
           namespace: dev
@@ -43,6 +58,13 @@ spec:
         - name: room-server-service
           port: 80
           namespace: dev
+          # ✅ Sticky Session 설정 (WebSocket과 동일한 Pod으로 라우팅)
+          sticky:
+            cookie:
+              name: room_server_affinity
+              secure: true
+              httpOnly: true
+              sameSite: lax
       middlewares:
         - name: auth-middleware         # 1. 먼저 인증 확인 (ForwardAuth)
           namespace: dev
