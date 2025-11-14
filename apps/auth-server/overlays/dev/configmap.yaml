@@ -28,3 +28,8 @@ data:
   LOGGING_LEVEL_ROOT: "INFO"
   LOGGING_LEVEL_TICKGET: "DEBUG"
   LOGGING_LEVEL_SECURITY: "DEBUG"
+
+  # MinIO S3 (프로필 이미지 저장)
+  MINIO_URL: "https://s3.tickget.kr"
+  MINIO_BUCKET_NAME: "tickget-dev"
+  MINIO_DEFAULT_PROFILE_COUNT: "4"
