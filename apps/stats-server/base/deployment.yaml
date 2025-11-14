@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-server-deployment
+  name: stats-server-deployment
 spec:
   replicas: 1
   strategy:
@@ -11,15 +11,15 @@ spec:
       maxUnavailable: 1  # 한 번에 1개씩만 업데이트
   selector:
     matchLabels:
-      app: user-server
+      app: stats-server
   template:
     metadata:
       labels:
-        app: user-server
+        app: stats-server
     spec:
       containers:
-      - name: user-server
-        image: kkaebu/user-server
+      - name: stats-server
+        image: kkaebu/stats-server
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -28,9 +28,9 @@ spec:
           value: "Asia/Seoul"
         envFrom:
           - configMapRef:
-              name: user-server-config
+              name: stats-server-config
           - secretRef:
-              name: user-server-secret
+              name: stats-server-secret
         resources:
           requests:
             memory: "512Mi"
