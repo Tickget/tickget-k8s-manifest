@@ -11,4 +11,4 @@ namespace: dev
 
 images:
 - name: kkaebu/search-server
-  newTag: dev-ae0ab8e8
+  newTag: dev-668d7124
