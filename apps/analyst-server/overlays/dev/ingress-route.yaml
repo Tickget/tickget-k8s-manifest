@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: analyst-server-route
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure  # HTTPS
+  routes:
+    # Analyst Server - AI 분석 및 봇 파라미터 관리
+    # 경로: /api/v1/dev/ast/*
+    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/dev/ast`)
+      kind: Rule
+      priority: 200
+      services:
+        - name: analyst-server-service
+          port: 80
+          namespace: dev
+      middlewares:
+        # 인증 미들웨어 적용 (마이페이지 AI 분석 리포트 등)
+        - name: auth-middleware
+          namespace: dev
+        - name: analyst-server-middleware  # 경로 수정 (StripPrefix)
+          namespace: dev
+
+
+  # TLS (HTTPS) 설정
+  tls:
+    secretName: tickget-kr-tls

@@ -35,9 +35,9 @@ spec:
           requests: # 대기 중 최소 리소스, 처리 시 Limits까지 버스트 허용
             memory: "256Mi"
             cpu: "100m"
-          limits: # OpenCV/AI 처리 시 필요한 버스트 리소스
-            memory: "2Gi"
-            cpu: "800m"
+          limits: # OpenCV/AI 처리 시 필요한 버스트 리소스 (최적화)
+            memory: "1536Mi"  # 2Gi → 1.5Gi (25% 절감)
+            cpu: "600m"       # 800m → 600m (25% 절감)
         readinessProbe:
           httpGet:
             path: /pipeline/health # main_modular.py에 정의된 헬스 체크

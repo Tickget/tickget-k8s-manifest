@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# 1. 사용할 base
+resources:
+- ../../base
+# 2. 이 환경(dev)에만 추가할 리소스
+- configmap.yaml
+- secret.yaml
+- middleware.yaml
+- ingress-route.yaml
+
+# 3. 이 환경의 모든 리소스에 'dev' 네임스페이스 적용
+namespace: dev
+
+# 4. base의 deployment.yaml 이미지 태그 덮어쓰기
+images:
+- name: kkaebu/analyst-server
+  newTag: dev-latest  # CI/CD에서 자동 업데이트됨
+
+# 공통 레이블 추가
+commonLabels:
+  environment: dev

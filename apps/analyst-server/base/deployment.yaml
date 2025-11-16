@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analyst-server-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0        # 새 Pod를 추가로 생성하지 않음 (리소스 절약)
+      maxUnavailable: 1  # 한 번에 1개씩만 업데이트
+  selector:
+    matchLabels:
+      app: analyst-server
+  template:
+    metadata:
+      labels:
+        app: analyst-server
+    spec:
+      containers:
+      - name: analyst-server
+        image: kkaebu/analyst-server # Overlays에서 태그 지정
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 # uvicorn 실행 포트
+        env:
+        - name: TZ
+          value: "Asia/Seoul"
+        envFrom:
+          - configMapRef:
+              name: analyst-server-config
+          - secretRef:
+              name: analyst-server-secret
+        resources:
+          requests: # 대기 중 최소 리소스 (LLM API 호출 대기 시간 많음)
+            memory: "128Mi"
+            cpu: "50m"
+          limits: # LLM 호출 및 데이터 분석 시 버스트 리소스
+            memory: "512Mi"
+            cpu: "300m"
+        readinessProbe:
+          httpGet:
+            path: /health # analysis_main.py에 정의된 헬스 체크
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
