@@ -16,7 +16,7 @@ namespace: dev
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/analyst-server
-  newTag: dev-bf2b6f65
+  newTag: dev-fdeeaf0b
 
 # 공통 레이블 추가
 commonLabels:
