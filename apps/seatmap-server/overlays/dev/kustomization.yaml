@@ -16,7 +16,7 @@ namespace: dev
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/seatmap-server
-  newTag: dev-311d69f2
+  newTag: dev-d6fb65f3
 
 # 공통 레이블 추가
 commonLabels:
