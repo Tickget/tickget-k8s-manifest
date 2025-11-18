@@ -38,6 +38,9 @@ data:
   KAFKA_TRUSTED_PACKAGES: "com.ticketing.seat.event"
   KAFKA_VALUE_DEFAULT_TYPE: "com.ticketing.seat.event.SeatConfirmationEvent"
   KAFKA_ACK_MODE: "MANUAL_IMMEDIATE"
+  PER_SECOND_CONSUME_RATE: "100"
+  PER_SECOND_KAFKA_EMIT: "1500"
+  PER_SECOND_REDIS_EMIT: "1000"
 
   # Kafka Admin & Topics
   APP_KAFKA_BOOTSTRAP: "kafka-service.default.svc.cluster.local:9092"
