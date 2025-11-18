@@ -72,3 +72,6 @@ data:
 
   # Room 서버 주소
   ROOM_SERVICE_URL: "http://room-server-service.dev.svc.cluster.local"
+
+  # Stats 서버 주소
+  STATS_SERVICE_URL: "http://stats-server-service.dev.svc.cluster.local"
