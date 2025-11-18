@@ -7,7 +7,7 @@ data:
   USE_LOCAL_ENV: "false"  # Kubernetes에서는 서버 DB 사용
 
   # ===== Minimum Session Count ===== 
-  MIN_SESSIONS_FOR_ANALYSIS: "10"
+  MIN_SESSIONS_FOR_ANALYSIS: "5"
 
   # ===== MySQL (SSAFY 제공) =====
   MYSQL_HOST: "ssafy-mysql-db.mysql.database.azure.com"
