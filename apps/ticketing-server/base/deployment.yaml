@@ -47,15 +47,15 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 120 # 시작 후 120초 대기
-          periodSeconds: 10 # 10초마다 체크
-          timeoutSeconds: 5         # 추가
-          failureThreshold: 3       # 추가
+          initialDelaySeconds: 180 # 120 → 180 (JVM 초기화 시간 고려)
+          periodSeconds: 15        # 10 → 15 (체크 간격 완화)
+          timeoutSeconds: 10       # 5 → 10 (응답 대기 시간 증가)
+          failureThreshold: 5      # 3 → 5 (재시작 빈도 감소)
         livenessProbe: # 파드가 살아있는지 (죽었으면 재시작)
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 150 # 시작 후 150초 대기
-          periodSeconds: 15
-          timeoutSeconds: 5         # 추가
-          failureThreshold: 3       # 추가
+          initialDelaySeconds: 210 # 150 → 210 (안정화 시간 증가)
+          periodSeconds: 20        # 15 → 20 (체크 간격 완화)
+          timeoutSeconds: 10       # 5 → 10 (응답 대기 시간 증가)
+          failureThreshold: 5      # 3 → 5 (재시작 빈도 감소)
