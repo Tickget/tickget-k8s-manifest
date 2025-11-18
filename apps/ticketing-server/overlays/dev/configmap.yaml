@@ -8,15 +8,15 @@ data:
   SPRING_APP_NAME: "ticketing-server"
 
   # JVM 힙 메모리 설정 (5000개 요청 처리 최적화)
-  JAVA_OPTS: >-
-    -Xms1024m
-    -Xmx1536m
-    -XX:+UseG1GC
-    -XX:MaxGCPauseMillis=200
-    -XX:ParallelGCThreads=2
-    -XX:ConcGCThreads=1
-    -XX:+UseStringDeduplication
-    -XX:+OptimizeStringConcat
+  # JAVA_OPTS: >-
+  #   -Xms1024m
+  #   -Xmx1536m
+  #   -XX:+UseG1GC
+  #   -XX:MaxGCPauseMillis=200
+  #   -XX:ParallelGCThreads=2
+  #   -XX:ConcGCThreads=1
+  #   -XX:+UseStringDeduplication
+  #   -XX:+OptimizeStringConcat
 
   # MySQL (외부 Azure DB - 공통 S13P31A209 DB 사용)
   DB_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=true"
@@ -49,7 +49,7 @@ data:
   KAFKA_TRUSTED_PACKAGES: "com.ticketing.seat.event"
   KAFKA_VALUE_DEFAULT_TYPE: "com.ticketing.seat.event.SeatConfirmationEvent"
   KAFKA_ACK_MODE: "MANUAL_IMMEDIATE"
-  PER_SECOND_CONSUME_RATE: "500"  # 100 → 500 (5배 증가, 대기열 적체 방지)
+  PER_SECOND_CONSUME_RATE: "100"  # 100 → 500 (5배 증가, 대기열 적체 방지)
   PER_SECOND_KAFKA_EMIT: "1500"
   PER_SECOND_REDIS_EMIT: "1000"
 
