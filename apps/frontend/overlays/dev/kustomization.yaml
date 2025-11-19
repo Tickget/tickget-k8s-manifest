@@ -13,7 +13,7 @@ namespace: dev
 # 3. 이미지 태그 설정
 images:
 - name: kkaebu/tickget-frontend
-  newTag: dev-d869af8d
+  newTag: dev-ab9cba80
 
 # 4. replicas 설정
 patches:
