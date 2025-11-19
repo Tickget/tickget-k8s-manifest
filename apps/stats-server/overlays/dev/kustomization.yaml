@@ -12,4 +12,4 @@ namespace: dev
 
 images:
 - name: kkaebu/stats-server
-  newTag: dev-6f3c6674
+  newTag: dev-d21f298d
