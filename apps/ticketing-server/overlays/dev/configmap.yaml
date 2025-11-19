@@ -30,9 +30,9 @@ data:
   REDIS_HOST: "redis-service.default.svc.cluster.local"
   REDIS_PORT: "6379"
   REDIS_TIMEOUT: "3000ms"
-  REDIS_POOL_MAX_ACTIVE: "50"  # 20 → 50 (대량 요청 처리 최적화)
-  REDIS_POOL_MAX_IDLE: "20"    # 10 → 20
-  REDIS_POOL_MIN_IDLE: "10"    # 5 → 10
+  REDIS_POOL_MAX_ACTIVE: "20"  # 20 → 50 (대량 요청 처리 최적화)
+  REDIS_POOL_MAX_IDLE: "10"    # 10 → 20
+  REDIS_POOL_MIN_IDLE: "5"    # 5 → 10
 
   # JPA
   JPA_DDL_AUTO: "update"
