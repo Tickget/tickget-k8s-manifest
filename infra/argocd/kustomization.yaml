@@ -1,0 +1,15 @@
+# infra/argocd/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# ArgoCD는 Helm으로 설치하므로 Ingress만 관리
+resources:
+# Traefik Ingress 설정 (TLS 포함)
+- argocd-ingress.yaml
+
+namespace: argocd
+
+# 참고:
+# - ArgoCD 설치는 Helm을 사용 (README.md 참고)
+# - 이 kustomization은 Ingress만 관리
+# - 사용법: kubectl apply -k infra/argocd/

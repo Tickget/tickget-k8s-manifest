@@ -1,0 +1,113 @@
+# ArgoCD를 ArgoCD 자신으로 관리하는 Application 리소스
+# (App of Apps 패턴 - GitOps로 ArgoCD 관리)
+#
+# 사용법:
+# 1. 먼저 Helm으로 ArgoCD 수동 설치
+# 2. 이 파일을 적용하여 이후 ArgoCD를 GitOps로 관리
+# 3. 이후 values.yaml 변경 시 Git Push → 자동 동기화
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  # Finalizer를 설정하여 Application 삭제 시 리소스도 함께 삭제
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # 배포할 프로젝트
+  project: default
+
+  # Helm Chart 소스 정보
+  source:
+    # Helm Repository URL
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 7.*.*  # 7.x.x의 최신 버전 사용
+    chart: argo-cd
+
+    # Helm Values (Git에서 관리)
+    helm:
+      # values.yaml 파일 참조 (권장)
+      # valueFiles:
+      #   - values.yaml
+
+      # 또는 인라인으로 values 지정
+      values: |
+        server:
+          replicas: 1
+          service:
+            type: ClusterIP
+          extraArgs:
+            - --insecure
+
+        controller:
+          replicas: 1
+
+        repoServer:
+          replicas: 1
+
+        redis:
+          enabled: true
+
+        dex:
+          enabled: true
+
+        notifications:
+          enabled: true
+
+        applicationSet:
+          enabled: true
+          replicas: 1
+
+        configs:
+          params:
+            server.insecure: true
+
+  # 배포 대상 클러스터
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  # 동기화 정책
+  syncPolicy:
+    # 자동 동기화 활성화
+    automated:
+      prune: true      # Git에서 삭제된 리소스를 클러스터에서도 삭제
+      selfHeal: true   # 클러스터에서 수동 변경 시 Git 상태로 복구
+      allowEmpty: false
+
+    # 동기화 옵션
+    syncOptions:
+      - CreateNamespace=true  # 네임스페이스 자동 생성
+      - ServerSideApply=true  # Server-side apply 사용
+
+    # 재시도 정책
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  # 무시할 리소스 차이 (Helm이 자동으로 관리하는 필드)
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+    - group: ""
+      kind: Secret
+      name: argocd-secret
+      jsonPointers:
+        - /data
+
+---
+# 참고: 이 방식을 사용하면
+# 1. ArgoCD 설정 변경은 Git을 통해서만 수행
+# 2. values.yaml 수정 → Git Push → ArgoCD 자동 동기화
+# 3. Helm upgrade 명령어 필요 없음 (완전한 GitOps)
+#
+# 주의:
+# - 이미 Helm으로 설치된 ArgoCD가 있어야 함
+# - 설치 순서: Helm 수동 설치 → 이 Application 적용 → 이후 GitOps 관리
+# - helm uninstall 하지 말 것 (이후 ArgoCD가 관리)

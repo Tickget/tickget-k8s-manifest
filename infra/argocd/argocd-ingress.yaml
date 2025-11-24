@@ -1,0 +1,79 @@
+---
+# ArgoCD Server Ingress (Traefik + TLS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+  annotations:
+    # Cert-Manager가 자동으로 TLS 인증서 발급
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  entryPoints:
+    - websecure  # HTTPS (443)
+  routes:
+    - kind: Rule
+      match: Host(`argocd.tickget.kr`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 443
+          # ArgoCD는 이미 HTTPS를 사용하므로 passthrough
+          scheme: https
+  tls:
+    secretName: argocd-tls  # TLS 인증서가 저장될 Secret 이름
+    # Cert-Manager가 자동으로 생성
+
+---
+# ArgoCD gRPC Ingress (CLI 및 UI의 실시간 업데이트용)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server-grpc
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`argocd.tickget.kr`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 20  # gRPC 트래픽에 우선순위 부여
+      services:
+        - name: argocd-server
+          port: 443
+          scheme: h2c  # HTTP/2 Cleartext (gRPC)
+  tls:
+    secretName: argocd-tls
+
+---
+# Middleware: HTTPS Redirect (HTTP -> HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: argocd-https-redirect
+  namespace: argocd
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+# HTTP Ingress (Redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server-http
+  namespace: argocd
+spec:
+  entryPoints:
+    - web  # HTTP (80)
+  routes:
+    - kind: Rule
+      match: Host(`argocd.tickget.kr`)
+      middlewares:
+        - name: argocd-https-redirect
+      services:
+        - name: argocd-server
+          port: 80
