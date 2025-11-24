@@ -3,15 +3,15 @@ kind: ConfigMap
 metadata:
   name: auth-server-config
 data:
-  # MySQL URL (비밀번호 제외)
-  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=true&useUnicode=true&characterEncoding=utf8"
+  # MySQL URL (클러스터 내부 - db 네임스페이스)
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql.db.svc.cluster.local:3306/tickget_db?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
   SPRING_DATASOURCE_DRIVER: "com.mysql.cj.jdbc.Driver"
 
   # JPA
   SPRING_JPA_DDL_AUTO: "update"
 
-  # Redis (default 네임스페이스 - FQDN)
-  SPRING_REDIS_HOST: "redis-service.default.svc.cluster.local"
+  # Redis (db 네임스페이스 - FQDN)
+  SPRING_REDIS_HOST: "redis-service.db.svc.cluster.local"
   SPRING_REDIS_PORT: "6379"
 
   # Frontend URL

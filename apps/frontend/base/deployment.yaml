@@ -17,6 +17,10 @@ spec:
       labels:
         app: frontend
     spec:
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
+
       containers:
       - name: frontend
         image: kkaebu/tickget-frontend

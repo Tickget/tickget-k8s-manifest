@@ -1,0 +1,45 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ticketing-server-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ticketing-server-deployment
+  minReplicas: 2  # 최소 2개 유지
+  maxReplicas: 3  # 최대 10개까지 스케일아웃
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # CPU 70% 초과 시 스케일아웃
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # 메모리 80% 초과 시 스케일아웃
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30  # 30초 동안 메트릭 안정화 후 스케일업
+      policies:
+      - type: Percent
+        value: 50  # 한 번에 현재 Pod 수의 50%씩 증가
+        periodSeconds: 30
+      - type: Pods
+        value: 2  # 또는 한 번에 최대 2개씩 증가
+        periodSeconds: 30
+      selectPolicy: Max  # 두 정책 중 더 공격적인 것 선택
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 5분 동안 메트릭 안정화 후 스케일다운
+      policies:
+      - type: Percent
+        value: 25  # 한 번에 현재 Pod 수의 25%씩 감소
+        periodSeconds: 60
+      - type: Pods
+        value: 1  # 또는 한 번에 최대 1개씩 감소
+        periodSeconds: 60
+      selectPolicy: Min  # 두 정책 중 더 보수적인 것 선택

@@ -17,6 +17,10 @@ spec:
       labels:
         app: captcha-server
     spec:
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
+
       containers:
       - name: captcha-server
         # Docker Hub 이미지 (태그는 overlays에서 지정)

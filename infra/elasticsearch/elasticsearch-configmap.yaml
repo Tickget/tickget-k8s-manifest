@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: elasticsearch-config
-  namespace: default
+  namespace: db
 data:
   elasticsearch.yml: |
     # 클러스터 설정 (단일 노드)

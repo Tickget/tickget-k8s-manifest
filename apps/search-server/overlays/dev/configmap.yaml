@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: search-server-config
 data:
-  # Elasticsearch 연결 정보
-  ELASTICSEARCH_HOSTS: "http://elasticsearch-service.default.svc.cluster.local:9200"
+  # Elasticsearch 연결 정보 (db 네임스페이스)
+  ELASTICSEARCH_HOSTS: "http://elasticsearch-service.db.svc.cluster.local:9200"
 
   # Logging
   LOGGING_LEVEL_ROOT: "INFO"

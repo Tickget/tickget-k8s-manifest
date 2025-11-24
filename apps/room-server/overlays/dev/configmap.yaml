@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: room-server-config
 data:
-  # MySQL URL (비밀번호 제외)
-  SPRING_DATASOURCE_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=true&useUnicode=true&characterEncoding=utf8"
+  # MySQL URL (클러스터 내부 - db 네임스페이스, 비밀번호는 Secret에서 주입)
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql.db.svc.cluster.local:3306/tickget_db?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
   SPRING_DATASOURCE_DRIVER: "com.mysql.cj.jdbc.Driver"
 
   # JPA
@@ -16,8 +16,8 @@ data:
   SPRING_DATASOURCE_MAX_POOL_SIZE: "5"
   SPRING_DATASOURCE_CONNECTION_TIMEOUT: "600000"
 
-  # Redis (default 네임스페이스 - FQDN)
-  SPRING_REDIS_HOST: "redis-service.default.svc.cluster.local"
+  # Redis (db 네임스페이스 - FQDN)
+  SPRING_REDIS_HOST: "redis-service.db.svc.cluster.local"
   SPRING_REDIS_PORT: "6379"
   SPRING_REDIS_MAX_ACTIVE: "10"
   SPRING_REDIS_MAX_IDLE: "10"
@@ -25,8 +25,8 @@ data:
   SPRING_REDIS_MAX_WAIT: "3000"
   SPRING_REDIS_SHUTDOWN_TIMEOUT: "100"
 
-  # Kafka (default 네임스페이스 - FQDN)
-  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.default.svc.cluster.local:9092"
+  # Kafka (messaging 네임스페이스 - FQDN)
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.messaging.svc.cluster.local:9092"
   # SPRING_KAFKA_GROUP_ID는 삭제 - 각 파드가 POD_NAME을 사용하여 고유한 그룹ID 생성
   SPRING_KAFKA_AUTO_OFFSET_RESET: "earliest"
   SPRING_KAFKA_TRUSTED_PACKAGES: "com.tickget.roomserver.event,com.tickget.roomserver.kafaka"

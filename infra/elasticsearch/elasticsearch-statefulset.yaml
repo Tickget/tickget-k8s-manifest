@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: elasticsearch
-  namespace: default
+  namespace: db
 spec:
   serviceName: elasticsearch-headless
   replicas: 1
@@ -14,14 +14,9 @@ spec:
       labels:
         app: elasticsearch
     spec:
-      # Worker 노드에만 배포
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: Exists
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
 
       initContainers:
       # vm.max_map_count 설정 (Elasticsearch 요구사항)

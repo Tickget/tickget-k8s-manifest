@@ -9,16 +9,16 @@ data:
   # ===== Minimum Session Count ===== 
   MIN_SESSIONS_FOR_ANALYSIS: "5"
 
-  # ===== MySQL (SSAFY 제공) =====
-  MYSQL_HOST: "ssafy-mysql-db.mysql.database.azure.com"
+  # ===== MySQL (클러스터 내부 - db 네임스페이스) =====
+  MYSQL_HOST: "mysql.db.svc.cluster.local"
   MYSQL_PORT: "3306"
-  MYSQL_DB: "S13P31A209"
-  MYSQL_USER: "S13P31A209"
-  MYSQL_URL: "mysql+mysqlconnector://S13P31A209:tickget209@ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209"
+  MYSQL_DB: "tickget_db"
+  MYSQL_USER: "tickget"
+  MYSQL_URL: "mysql+mysqlconnector://tickget:hiiiiky@mysql.db.svc.cluster.local:3306/tickget_db"
 
-  # ===== MongoDB (SSAFY 제공) =====
-  MONGO_URI: "mongodb+srv://S13P31A209:tickget209@ssafy.ngivl.mongodb.net/S13P31A209?authSource=admin"
-  MONGO_DB: "S13P31A209"
+  # ===== MongoDB (클러스터 내부 - db 네임스페이스) =====
+  MONGO_URI: "mongodb://tickget:hiiiiky@mongodb.db.svc.cluster.local:27017/ticketing_db?authSource=admin"
+  MONGO_DB: "ticketing_db"
 
   # ===== Json Save Path =====
   BOT_PARAM_OUT: "/tmp/bot_params.json"

@@ -26,8 +26,8 @@ data:
   MINIO_BUCKET_NAME: "tickget-dev"
   MINIO_USE_SSL: "true"
 
-  # Kafka (클러스터 내부 - default 네임스페이스)
-  KAFKA_BROKERS: "kafka-service.default.svc.cluster.local:9092"
+  # Kafka (클러스터 내부 - messaging 네임스페이스)
+  KAFKA_BROKERS: "kafka-service.messaging.svc.cluster.local:9092"
   KAFKA_GROUP_ID: "bot-server-group-dev"
   KAFKA_TOPIC: "bot-dequeued-publish"
 

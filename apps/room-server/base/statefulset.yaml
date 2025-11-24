@@ -19,6 +19,10 @@ spec:
       labels:
         app: room-server
     spec:
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
+
       containers:
       - name: room-server
         image: kkaebu/room-server

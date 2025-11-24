@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    # Prometheus 데이터소스
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus.monitoring.svc.cluster.local:9090
+      isDefault: true
+      editable: true
+      jsonData:
+        timeInterval: "15s"
+
+    # Loki 데이터소스 (로그 집계)
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki.monitoring.svc.cluster.local:3100
+      editable: true
+      jsonData:
+        maxLines: 1000

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: kafka
+  namespace: messaging
 spec:
   serviceName: kafka-service
   replicas: 1
@@ -13,6 +14,10 @@ spec:
       labels:
         app: kafka
     spec:
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
+
       containers:
       - name: kafka
         image: apache/kafka:3.8.1
@@ -31,11 +36,11 @@ spec:
         - name: KAFKA_LISTENERS
           value: "PLAINTEXT://:9092,CONTROLLER://:9093"
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: "PLAINTEXT://kafka-service.default.svc.cluster.local:9092"
+          value: "PLAINTEXT://kafka-service.messaging.svc.cluster.local:9092"
         - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
           value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
         - name: KAFKA_CONTROLLER_QUORUM_VOTERS
-          value: "1@kafka-0.kafka-service.default.svc.cluster.local:9093"
+          value: "1@kafka-0.kafka-service.messaging.svc.cluster.local:9093"
         - name: KAFKA_CONTROLLER_LISTENER_NAMES
           value: "CONTROLLER"
         - name: KAFKA_LOG_DIRS

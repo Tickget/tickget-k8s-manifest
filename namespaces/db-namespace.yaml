@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: db
+  labels:
+    name: db
+    environment: production
+    team: tickget
+    tier: database

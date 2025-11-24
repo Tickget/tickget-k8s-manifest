@@ -5,8 +5,8 @@ metadata:
   namespace: monitoring
 data:
   kibana.yml: |
-    # Elasticsearch 연결 (default namespace의 서비스)
-    elasticsearch.hosts: ["http://elasticsearch-service.default.svc.cluster.local:9200"]
+    # Elasticsearch 연결 (db namespace의 서비스)
+    elasticsearch.hosts: ["http://elasticsearch-service.db.svc.cluster.local:9200"]
 
     # 서버 설정
     server.host: "0.0.0.0"

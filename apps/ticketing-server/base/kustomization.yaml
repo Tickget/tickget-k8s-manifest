@@ -6,3 +6,4 @@ kind: Kustomization
 resources:
 - deployment.yaml
 - service.yaml
+- hpa.yaml  # HorizontalPodAutoscaler 추가

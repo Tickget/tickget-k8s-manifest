@@ -18,16 +18,16 @@ data:
   #   -XX:+UseStringDeduplication
   #   -XX:+OptimizeStringConcat
 
-  # MySQL (외부 Azure DB - 공통 S13P31A209 DB 사용)
-  DB_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=true"
+  # MySQL (클러스터 내부 - db 네임스페이스)
+  DB_URL: "jdbc:mysql://mysql.db.svc.cluster.local:3306/tickget_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false"
 
-  # MongoDB (외부 Azure DB - 로그 저장용)
-  MONGO_URI: "mongodb+srv://S13P31A209:tickget209@ssafy.ngivl.mongodb.net/S13P31A209?authSource=admin"
-  MONGO_DATABASE: "S13P31A209"
+  # MongoDB (클러스터 내부 - db 네임스페이스, 로그 저장용)
+  MONGO_URI: "mongodb://tickget:hiiiiky@mongodb.db.svc.cluster.local:27017/ticketing_db?authSource=admin"
+  MONGO_DATABASE: "ticketing_db"
   MONGO_AUTO_INDEX: "true"
 
-  # Redis (클러스터 내부 - default 네임스페이스)
-  REDIS_HOST: "redis-service.default.svc.cluster.local"
+  # Redis (클러스터 내부 - db 네임스페이스)
+  REDIS_HOST: "redis-service.db.svc.cluster.local"
   REDIS_PORT: "6379"
   REDIS_TIMEOUT: "3000ms"
   REDIS_POOL_MAX_ACTIVE: "20"  # 20 → 50 (대량 요청 처리 최적화)
@@ -41,8 +41,8 @@ data:
   HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
   SPRING_OPEN_IN_VIEW: "false"
 
-  # Kafka (클러스터 내부 - default 네임스페이스)
-  KAFKA_BOOTSTRAP: "kafka-service.default.svc.cluster.local:9092"
+  # Kafka (클러스터 내부 - messaging 네임스페이스)
+  KAFKA_BOOTSTRAP: "kafka-service.messaging.svc.cluster.local:9092"
   JACKSON_DATE_FORMAT: "yyyy-MM-dd HH:mm:ss"
   KAFKA_CONSUMER_AUTO_OFFSET_RESET: "latest"
   KAFKA_ENABLE_AUTO_COMMIT: "false"
@@ -54,7 +54,7 @@ data:
   PER_SECOND_REDIS_EMIT: "1000"
 
   # Kafka Admin & Topics
-  APP_KAFKA_BOOTSTRAP: "kafka-service.default.svc.cluster.local:9092"
+  APP_KAFKA_BOOTSTRAP: "kafka-service.messaging.svc.cluster.local:9092"
   KAFKA_ADMIN_AUTO_CREATE: "true"
   KAFKA_ADMIN_CLIENT_ID: "kafka-admin"
   TOPIC_USER_LOG: "user-log"

@@ -7,8 +7,8 @@ data:
   SERVER_PORT: "8080"
   SPRING_APP_NAME: "user-server"
 
-  # MySQL (외부 Azure DB - username, password는 Secret에서 주입)
-  DB_URL: "jdbc:mysql://ssafy-mysql-db.mysql.database.azure.com:3306/S13P31A209?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=true&useUnicode=true&characterEncoding=utf8"
+  # MySQL (클러스터 내부 - db 네임스페이스, username, password는 Secret에서 주입)
+  DB_URL: "jdbc:mysql://mysql.db.svc.cluster.local:3306/tickget_db?serverTimezone=Asia/Seoul&connectionTimeZone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
 
   # JPA
   JPA_DDL_AUTO: "update"

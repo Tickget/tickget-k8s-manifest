@@ -17,6 +17,10 @@ spec:
       labels:
         app: auth-server
     spec:
+      # Worker1 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: worker1
+
       containers:
       - name: auth-server
         image: kkaebu/auth-server

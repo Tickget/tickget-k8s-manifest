@@ -45,7 +45,7 @@ spec:
 
         env:
         - name: ELASTICSEARCH_HOSTS
-          value: "http://elasticsearch-service.default.svc.cluster.local:9200"
+          value: "http://elasticsearch-service.db.svc.cluster.local:9200"
         - name: SERVER_NAME
           value: "kibana-tickget"
         - name: SERVER_PUBLICBASEURL

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: minio
+  namespace: db
 spec:
   serviceName: minio-service
   replicas: 1
@@ -13,6 +14,10 @@ spec:
       labels:
         app: minio
     spec:
+      # Master 노드에 고정
+      nodeSelector:
+        kubernetes.io/hostname: master
+
       containers:
       - name: minio
         image: minio/minio:latest
@@ -23,9 +28,9 @@ spec:
         - ":9001"
         env:
         - name: MINIO_ROOT_USER
-          value: "minioadmin"
+          value: "tickget"
         - name: MINIO_ROOT_PASSWORD
-          value: "minioadmin"
+          value: "hiiiiky"
         ports:
         - containerPort: 9000
           name: api
