@@ -1,0 +1,29 @@
+---
+# ArgoCD TLS Certificate
+# Cert-Manager가 Let's Encrypt에서 자동으로 인증서 발급
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-tls
+  namespace: argocd
+spec:
+  # Secret 이름 (IngressRoute의 tls.secretName과 동일해야 함)
+  secretName: argocd-tls
+
+  # 인증서 발급 기관 (Let's Encrypt Production)
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+  # 도메인 이름
+  dnsNames:
+    - argocd.tickget.kr
+
+  # 인증서 갱신 설정
+  renewBefore: 360h  # 15일 전에 갱신 시작
+
+  # 인증서 용도
+  usages:
+    - digital signature
+    - key encipherment
