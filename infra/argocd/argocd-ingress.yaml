@@ -17,9 +17,9 @@ spec:
       priority: 10
       services:
         - name: argocd-server
-          port: 443
-          # ArgoCD는 이미 HTTPS를 사용하므로 passthrough
-          scheme: https
+          port: 80
+          # ArgoCD는 insecure 모드로 HTTP 사용
+          scheme: http
   tls:
     secretName: argocd-tls  # TLS 인증서가 저장될 Secret 이름
     # Cert-Manager가 자동으로 생성
@@ -42,7 +42,7 @@ spec:
       priority: 20  # gRPC 트래픽에 우선순위 부여
       services:
         - name: argocd-server
-          port: 443
+          port: 80
           scheme: h2c  # HTTP/2 Cleartext (gRPC)
   tls:
     secretName: argocd-tls
