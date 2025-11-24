@@ -9,7 +9,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git # 본인의 Git Repo URL
+    repoURL: https://github.com/Tickget/tickget-k8s-manifest.git # 본인의 Git Repo URL
     targetRevision: dev
     path: apps/analyst-server/overlays/dev # Kustomize overlay 경로
 

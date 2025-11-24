@@ -9,7 +9,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://lab.ssafy.com/h2sorginal/tickget-k8s-manifests.git
+    repoURL: https://github.com/Tickget/tickget-k8s-manifest.git
     targetRevision: dev
     path: apps/captcha-server/overlays/dev
 
