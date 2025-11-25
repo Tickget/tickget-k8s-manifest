@@ -1,35 +1,35 @@
 ---
-# Kibana TLS Certificate
+# Grafana TLS Certificate
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: es-tickget-kr-tls
+  name: grafana-tickget-kr-tls
   namespace: monitoring
 spec:
-  secretName: es-tickget-kr-tls
+  secretName: grafana-tickget-kr-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
     group: cert-manager.io
   dnsNames:
-    - es.tickget.kr
+    - grafana.tickget.kr
   renewBefore: 360h
 
 ---
-# Kibana IngressRoute
+# Grafana IngressRoute
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: kibana-ingress
+  name: grafana-ingress
   namespace: monitoring
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`es.tickget.kr`)
-      kind: Rule
+    - kind: Rule
+      match: Host(`grafana.tickget.kr`)
       services:
-        - name: kibana-service
-          port: 5601
+        - name: grafana-service
+          port: 80
   tls:
-    secretName: es-tickget-kr-tls
+    secretName: grafana-tickget-kr-tls
