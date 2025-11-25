@@ -34,7 +34,7 @@ MYSQL_CONFIG = {
 
 ES_CONFIG = {
     'hosts': ['http://elasticsearch-service.db.svc.cluster.local:9200'],
-    'timeout': 30,
+    'request_timeout': 30,
     'max_retries': 3,
     'retry_on_timeout': True
 }
