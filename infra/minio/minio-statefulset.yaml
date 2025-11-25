@@ -37,6 +37,15 @@ spec:
             secretKeyRef:
               name: minio-secret
               key: root-password
+        # 도메인 설정 (공개 URL 액세스용)
+        - name: MINIO_DOMAIN
+          value: "s3.tickget.kr"
+        - name: MINIO_SERVER_URL
+          value: "https://s3.tickget.kr"
+        - name: MINIO_BROWSER_REDIRECT_URL
+          value: "https://s3-console.tickget.kr"
+        - name: MINIO_REGION
+          value: "ap-northeast-2"
         ports:
         - containerPort: 9000
           name: api
