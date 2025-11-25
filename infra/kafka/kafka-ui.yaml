@@ -97,7 +97,24 @@ spec:
   selector:
     app: kafka-ui
 ---
-# 3. Kafka UI IngressRoute (서브도메인 kafka.tickget.kr)
+# 3. Kafka UI TLS Certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kafka-tickget-kr-tls
+  namespace: monitoring
+spec:
+  secretName: kafka-tickget-kr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - kafka.tickget.kr
+  renewBefore: 360h
+
+---
+# 4. Kafka UI IngressRoute (서브도메인 kafka.tickget.kr)
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -105,7 +122,7 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints:
-    - websecure  # HTTPS
+    - websecure
   routes:
     - match: Host(`kafka.tickget.kr`)
       kind: Rule
@@ -113,6 +130,5 @@ spec:
         - name: kafka-ui-service
           port: 80
           namespace: monitoring
-  # TLS 설정 (tickget.kr 와일드카드 인증서 사용)
   tls:
     secretName: kafka-tickget-kr-tls
