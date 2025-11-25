@@ -23,4 +23,5 @@ spec:
   # TLS (HTTPS) 설정
   tls:
     secretName: tickget-kr-tls
+    namespace: dev
     # Secret은 default 네임스페이스에 있지만, Traefik이 자동으로 찾음
