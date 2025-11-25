@@ -19,9 +19,6 @@ images:
 - name: kkaebu/ticketing-server
   newTag: dev-bfeaf5a8
 
-# 5. base의 deployment.yaml replicas 덮어쓰기 (예: dev는 2개만)
+# 5. HPA로 자동 스케일링 (replicas는 HPA가 관리)
 patches:
-- path: patch-replicas.yaml
-  target:
-    kind: Deployment
-    name: ticketing-server-deployment
+- path: patch-hpa.yaml

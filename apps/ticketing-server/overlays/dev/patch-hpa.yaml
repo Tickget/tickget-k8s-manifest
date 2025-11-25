@@ -1,0 +1,41 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ticketing-server-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ticketing-server-deployment
+  minReplicas: 2   # dev 환경: 최소 2개 (티켓팅 부하 고려)
+  maxReplicas: 3   # dev 환경: 최대 3개
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 90
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60  # 스케일업 안정화 시간 (급증 대응)
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 스케일다운 안정화 시간 (급격한 축소 방지)
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
