@@ -45,4 +45,3 @@ spec:
   # TLS (HTTPS) 설정
   tls:
     secretName: tickget-kr-tls
-    namespace: dev
