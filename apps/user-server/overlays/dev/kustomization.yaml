@@ -12,4 +12,4 @@ namespace: dev
 
 images:
 - name: kkaebu/user-server
-  newTag: dev-a4362190
+  newTag: dev-3d46ee2
