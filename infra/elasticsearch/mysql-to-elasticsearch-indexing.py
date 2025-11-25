@@ -57,7 +57,15 @@ def connect_mysql():
 def connect_elasticsearch():
     """Elasticsearch 연결"""
     try:
-        es = Elasticsearch(**ES_CONFIG)
+        # Elasticsearch 8.x에서는 verify_certs=False 필요 (HTTP 사용 시)
+        es = Elasticsearch(
+            hosts=ES_CONFIG['hosts'],
+            request_timeout=ES_CONFIG['request_timeout'],
+            max_retries=ES_CONFIG['max_retries'],
+            retry_on_timeout=ES_CONFIG['retry_on_timeout'],
+            verify_certs=False,
+            ssl_show_warn=False
+        )
         if es.ping():
             print(f"✅ Elasticsearch 연결 성공: {ES_CONFIG['hosts'][0]}")
             return es
