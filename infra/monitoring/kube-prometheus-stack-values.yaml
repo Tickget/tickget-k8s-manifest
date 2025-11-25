@@ -1,0 +1,176 @@
+# kube-prometheus-stack Helm Chart Values
+# Kubernetes 모니터링 표준 스택 (Prometheus Operator)
+#
+# 설치 명령어:
+#   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+#   helm repo update
+#   helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+#     --namespace monitoring \
+#     --values infra/monitoring/kube-prometheus-stack-values.yaml
+#
+# 업그레이드:
+#   helm upgrade kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+#     --namespace monitoring \
+#     --values infra/monitoring/kube-prometheus-stack-values.yaml
+
+# Prometheus 설정
+prometheus:
+  prometheusSpec:
+    # 데이터 보관 기간
+    retention: 15d
+
+    # 메트릭 수집 주기
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+
+    # 리소스 설정
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+    # 영구 스토리지 설정 (local-path-provisioner 사용)
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+    # ServiceMonitor 자동 검색 설정
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+# Grafana 설정
+grafana:
+  # 초기 관리자 비밀번호 (첫 로그인 후 반드시 변경하세요!)
+  adminPassword: "tickget209"
+
+  # 서비스 타입 (ClusterIP - Ingress로 외부 노출)
+  service:
+    type: ClusterIP
+    port: 3000
+
+  # Ingress 설정 (Traefik IngressRoute로 별도 관리)
+  ingress:
+    enabled: false
+
+  # 영구 스토리지 설정
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+
+  # 리소스 설정
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  # 기본 데이터 소스 (Prometheus 자동 추가)
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://kube-prometheus-stack-prometheus:9090
+          access: proxy
+          isDefault: true
+          jsonData:
+            timeInterval: 30s
+
+  # 추가 플러그인 설치
+  plugins:
+    - grafana-piechart-panel
+    - grafana-clock-panel
+
+# Alertmanager 설정
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+# Node Exporter 설정 (DaemonSet - 모든 노드에 배포)
+nodeExporter:
+  enabled: true
+
+# Kube State Metrics 설정
+kubeStateMetrics:
+  enabled: true
+
+# Prometheus Operator 설정
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+# 기본 알림 규칙 활성화
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: false  # K3s는 내장 etcd 사용하므로 비활성화
+    configReloaders: true
+    general: true
+    k8s: true
+    kubeApiserverAvailability: true
+    kubeApiserverSlos: true
+    kubelet: true
+    kubeProxy: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeScheduler: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: true
+
+# 추가 ServiceMonitor 설정 (기존 서비스 모니터링)
+additionalServiceMonitors: []
+  # 예시: Traefik 모니터링
+  # - name: traefik
+  #   selector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: traefik
+  #   namespaceSelector:
+  #     matchNames:
+  #       - kube-system
+  #   endpoints:
+  #     - port: metrics
+  #       interval: 30s
