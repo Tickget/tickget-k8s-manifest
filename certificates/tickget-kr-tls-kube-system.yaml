@@ -1,0 +1,26 @@
+# TLS Certificate for tickget.kr (kube-system namespace)
+# This certificate is used by Traefik Dashboard IngressRoutes
+# Automatically renewed by cert-manager using Let's Encrypt
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tickget-kr-tls
+  namespace: kube-system
+spec:
+  # DNS names covered by this certificate
+  dnsNames:
+    - tickget.kr
+    - www.tickget.kr
+
+  # ClusterIssuer reference (Let's Encrypt Production)
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+
+  # Renew certificate 15 days (360h) before expiration
+  renewBefore: 360h
+
+  # Secret name where the TLS certificate will be stored
+  # This secret will be created in the 'kube-system' namespace
+  secretName: tickget-kr-tls

@@ -13,36 +13,6 @@ spec:
     # ⚠️ ticketing-server: apps/ticketing-server/overlays/dev/ingress-route.yaml로 이동됨
     # 서비스별 IngressRoute 분리 전략 적용 중
 
-    # --- 1. 운영 환경 (Prod / master) ---
-    # 경로: /api/v1/tkt/*
-    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/tkt`)
-      kind: Rule
-      services:
-        - name: ticketing-server-service
-          port: 80
-          namespace: prod # prod 네임스페이스로 라우팅
-      middlewares:
-        - name: ticketing-server-middleware # 'prod' 네임스페이스의 미들웨어
-          namespace: prod
-
-    # --- 2. 개발 환경 (Dev / dev) ---
-    # Dev 환경의 모든 API 라우팅은 각 서비스의 IngressRoute로 분리됨
-
-    # --- 3. 테스트 환경 (Test / test-dev) ---
-    # 경로: /api/v1/test/tst/*
-    - match: Host(`tickget.kr`) && PathPrefix(`/api/v1/test/tst`)
-      kind: Rule
-      services:
-        - name: test-server-service
-          port: 80
-          namespace: test # ★ test 네임스페이스로 라우팅
-      middlewares:
-        - name: test-server-middleware # 'test' 네임스페이스의 미들웨어
-          namespace: test
-
-    # --- 4. 프론트엔드 (Frontend) ---
-    # 주의: 프론트엔드는 가장 마지막에 선언하되, priority는 적절히 설정
-
     # Dev 프론트엔드 (기본 - 모든 나머지 경로)
     - match: Host(`tickget.kr`) && PathPrefix(`/`)
       kind: Rule
