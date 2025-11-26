@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo-express
-  namespace: db
+  namespace: monitoring
   labels:
     app: mongo-express
 spec:
@@ -24,7 +24,7 @@ spec:
         env:
         # MongoDB 연결 설정
         - name: ME_CONFIG_MONGODB_SERVER
-          value: "mongodb-service"  # MongoDB 서비스 이름
+          value: "mongodb-service.db"  # MongoDB 서비스 FQDN (db 네임스페이스)
         - name: ME_CONFIG_MONGODB_PORT
           value: "27017"
         # MongoDB 인증 정보 (Secret에서 가져오기)

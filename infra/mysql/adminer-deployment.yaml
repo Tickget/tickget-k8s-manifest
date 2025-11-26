@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adminer
-  namespace: db
+  namespace: monitoring
   labels:
     app: adminer
 spec:
@@ -24,7 +24,7 @@ spec:
         env:
         # Adminer 기본 설정
         - name: ADMINER_DEFAULT_SERVER
-          value: "mysql-service"  # MySQL 서비스 이름
+          value: "mysql-service.db"  # MySQL 서비스 FQDN (db 네임스페이스)
         - name: ADMINER_DESIGN
           value: "pepa-linha"  # 깔끔한 테마
         resources:
