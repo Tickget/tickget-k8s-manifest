@@ -1,0 +1,35 @@
+---
+# Mongo Express TLS Certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mongo-tickget-kr-tls
+  namespace: db
+spec:
+  secretName: mongo-tickget-kr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - mongo.tickget.kr
+  renewBefore: 360h
+
+---
+# Mongo Express IngressRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mongo-express-ingress
+  namespace: db
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`mongo.tickget.kr`)
+      services:
+        - name: mongo-express-service
+          port: 8081
+  tls:
+    secretName: mongo-tickget-kr-tls

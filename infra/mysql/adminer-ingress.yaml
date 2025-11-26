@@ -1,0 +1,35 @@
+---
+# Adminer TLS Certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mysql-tickget-kr-tls
+  namespace: db
+spec:
+  secretName: mysql-tickget-kr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - mysql.tickget.kr
+  renewBefore: 360h
+
+---
+# Adminer IngressRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adminer-ingress
+  namespace: db
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`mysql.tickget.kr`)
+      services:
+        - name: adminer-service
+          port: 8080
+  tls:
+    secretName: mysql-tickget-kr-tls
