@@ -22,12 +22,15 @@ spec:
         - containerPort: 8081
           name: http
         env:
-        # MongoDB 연결 설정
+        # MongoDB 연결 URL (이것이 우선순위가 높음)
+        - name: ME_CONFIG_MONGODB_URL
+          value: "mongodb://tickget:hiiiiky@mongodb-service.db:27017/ticketing_db?authSource=admin"
+        # MongoDB 연결 설정 (URL이 없을 때 사용)
         - name: ME_CONFIG_MONGODB_SERVER
           value: "mongodb-service.db"  # MongoDB 서비스 FQDN (db 네임스페이스)
         - name: ME_CONFIG_MONGODB_PORT
           value: "27017"
-        # MongoDB 인증 정보 (Secret에서 가져오기)
+        # MongoDB 인증 정보
         - name: ME_CONFIG_MONGODB_ADMINUSERNAME
           valueFrom:
             secretKeyRef:
