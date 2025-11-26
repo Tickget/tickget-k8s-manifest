@@ -27,12 +27,20 @@ spec:
           value: "mongodb-service"  # MongoDB 서비스 이름
         - name: ME_CONFIG_MONGODB_PORT
           value: "27017"
-        # 인증 설정 (MongoDB 인증 정보와 일치해야 함)
+        # MongoDB 인증 정보 (Secret에서 가져오기)
         - name: ME_CONFIG_MONGODB_ADMINUSERNAME
-          value: "admin"  # MongoDB 관리자 계정
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: username
         - name: ME_CONFIG_MONGODB_ADMINPASSWORD
-          value: "tickget209"  # MongoDB 관리자 비밀번호
-        # Mongo Express 웹 인증 (접속 시 필요)
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: password
+        - name: ME_CONFIG_MONGODB_AUTH_DATABASE
+          value: "admin"  # authSource
+        # Mongo Express 웹 인증 (브라우저 접속 시 필요)
         - name: ME_CONFIG_BASICAUTH_USERNAME
           value: "admin"
         - name: ME_CONFIG_BASICAUTH_PASSWORD
