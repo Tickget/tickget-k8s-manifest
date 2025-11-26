@@ -17,6 +17,14 @@ spec:
     server: https://kubernetes.default.svc
     namespace: dev
 
+  # HPA가 관리하는 replicas 필드는 ArgoCD 동기화에서 제외
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: ticketing-server-deployment
+    jsonPointers:
+    - /spec/replicas
+
   syncPolicy:
     automated:
       prune: true
