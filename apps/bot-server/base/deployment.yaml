@@ -50,7 +50,7 @@ spec:
             memory: "256Mi"
             cpu: "100m"
           limits:  # 최대 사용 가능 리소스
-            memory: "1Gi"
+            memory: "2Gi"
             cpu: "400m"
         # 헬스 체크 설정
         readinessProbe:  # 파드가 요청을 받을 준비가 되었는지
