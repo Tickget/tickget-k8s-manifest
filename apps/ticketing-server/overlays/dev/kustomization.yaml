@@ -17,7 +17,7 @@ namespace: dev
 # 4. base의 deployment.yaml 이미지 태그 덮어쓰기
 images:
 - name: kkaebu/ticketing-server
-  newTag: dev-bfeaf5a8
+  newTag: dev-e486d7d
 
 # 5. HPA로 자동 스케일링 (replicas는 HPA가 관리)
 patches:
