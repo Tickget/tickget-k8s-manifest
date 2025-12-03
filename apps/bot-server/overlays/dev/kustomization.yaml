@@ -17,7 +17,7 @@ resources:
 # 이미지 태그 설정 (Docker Hub)
 images:
   - name: kkaebu/bot-server
-    newTag: dev-1f34ea5
+    newTag: dev-e486d7d
 
 # 공통 레이블 추가
 commonLabels:
